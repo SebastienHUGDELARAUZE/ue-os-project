@@ -1,0 +1,23 @@
+name: CI for C99
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: make
+      run: make
+      
+    - name: install python requirements
+      run: pip install -r test/requirements.txt
+      
+    - name: make run_test
+      run: make run_test
