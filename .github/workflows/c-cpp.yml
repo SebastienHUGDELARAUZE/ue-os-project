@@ -8,14 +8,16 @@ on:
 
 jobs:
   build:
-
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-18.04
 
     steps:
     - uses: actions/checkout@v2
     - name: make
       run: make
-      
+    
+  test:
+    runs-on: ubuntu-18.04
+    steps:
     - name: make install_deps
       run: make install_deps
       
