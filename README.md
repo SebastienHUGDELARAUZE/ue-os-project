@@ -39,26 +39,7 @@ Files of interest:
 
 - [ ] Case: Command with/without arguments
 
-```puml
-start
-:Command;
-:**Read** & **Parse**;
-if (Command?) then (External)
-    if (Exist in absolute path) then (Found)
-        :**Execute**;
-        stop
-    elseif (Exist in PATH?) then (Found)
-        :**Execute**;
-        stop
-    else (Not found)
-        :**Return** error message;
-        end
-    endif
-else (Internal)
-    :**Execute**;
-    stop
-endif
-```
+![usecase main](doc-files/usecase_main.png)
 
 - [ ] Case: End result
 
