@@ -1,0 +1,5 @@
+.vscode/
+helper/
+
+compile.sh
+*.o
