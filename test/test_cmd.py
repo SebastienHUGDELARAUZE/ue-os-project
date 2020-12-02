@@ -3,9 +3,15 @@ import pexpect
 import os
 import sys
 
+from conftest import ExceptionShell
+
+
 NEW_LINE="\r\n"
 
-class Test_Internal_Command:
+
+
+@pytest.mark.unit_test
+class Test_Internal_Command():
 
     def test_echo(self, test_shell):
         test_shell.sendline("echo test")
@@ -32,3 +38,12 @@ class Test_Internal_Command:
 
         test_shell.sendline("showpath")
         test_shell.expect("PATH="+NEW_LINE)
+
+
+@pytest.mark.unit_test
+class Test_External_Command():
+
+    def test_yyerror_raised(self, test_shell):
+        test_shell.sendline("XXX")
+        with pytest.raises(ExceptionShell):
+            test_shell.expect("XXX")

@@ -39,5 +39,5 @@ jobs:
           name: shell-artifact
       - name: Make shell executable
         run: chmod +x ./main
-      - name: Run tests
-        run: make run_test
+      - name: Run all tests
+        run: make run_all_test

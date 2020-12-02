@@ -1,9 +1,10 @@
 %{
 #include <stdio.h>
+#include <stdlib.h>
 #define YYSTYPE char*
+void yyerror(char *s);
 int yyparse();
 int yylex();
-int yyerror(char *s);
 
 #include "shell.h"
 
@@ -35,13 +36,13 @@ commande:
 
 %%
 
-int yyerror(char *s) {
+void yyerror(char *s) {
     printf("yyerror : %s\n",s);
-    return 0;
+    exit(EXIT_FAILURE);
 }
 
-int main(void) {
+void main(void) {
     displayPrompt();
     yyparse();
-    return 0;
+    exit(EXIT_SUCCESS);
 }

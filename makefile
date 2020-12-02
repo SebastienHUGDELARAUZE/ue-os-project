@@ -1,5 +1,6 @@
-.PHONY: run_test
+.PHONY: build
 
+all: build run_test soft_clean
 build: main
 build_parser: syntax.c
 
@@ -23,14 +24,27 @@ shell.o:
 main: main.o syntax.o shell.o
 	gcc -o main shell.o syntax.o main.o
 
-# UTILITIES
+# INSTALL
 
 install_deps:
 	pip install -r test/requirements.txt
 
-run_test:
+# TEST
+
+run_all_test: build
 	pytest test/ -vs
 
-clean:
-	rm -rf main.c syntax.c
+run_unit_test: build
+	pytest test/ -vs -m unit_test
+
+run_funtional_test: build
+	pytest test/ -vs -m functional_test
+
+# CLEAN
+
+soft_clean:
+	rm -rf main main.c syntax.c
 	rm -rf *.o
+
+clean: soft_clean
+	rm -rf main
