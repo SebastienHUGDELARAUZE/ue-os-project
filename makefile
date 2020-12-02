@@ -31,13 +31,13 @@ install_deps:
 
 # TEST
 
-run_all_test: build
+run_all_test:
 	pytest test/ -vs
 
-run_unit_test: build
+run_unit_test:
 	pytest test/ -vs -m unit_test
 
-run_funtional_test: build
+run_funtional_test:
 	pytest test/ -vs -m functional_test
 
 # CLEAN
