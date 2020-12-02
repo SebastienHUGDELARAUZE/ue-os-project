@@ -7,33 +7,37 @@ on:
     branches: [ master ]
 
 jobs:
-  build:
+  Build:
     runs-on: ubuntu-18.04
 
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout repo
+        uses: actions/checkout@v2
       - name: Build Shell
-        run: make
-      - uses: actions/upload-artifact@v2
+        run: make build
+      - name: Archive Shell artifact
+        uses: actions/upload-artifact@v2
         with:
           name: shell-artifact
           path: main
     
-  test:
-    needs: build
+  Test:
+    needs: Build
     runs-on: ubuntu-18.04
     steps:
-      - uses: actions/checkout@v2
-      - name: Install Python 3
+      - name: Checkout repo
+        uses: actions/checkout@v2
+      - name: Setup Python 3
         uses: actions/setup-python@v2
         with:
           python-version: 3.x
-      - name: make install_deps
+      - name: Make install_deps
         run: make install_deps
-      - uses: actions/download-artifact@v2
+      - name: Use Shell artifact
+        uses: actions/download-artifact@v2
         with:
           name: shell-artifact
-      - name: make shell executable
+      - name: Make shell executable
         run: chmod +x ./main
-      - name: make run_test
+      - name: Run tests
         run: make run_test
