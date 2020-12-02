@@ -1,6 +1,6 @@
 # SHELL Project 
 
-![CI for C99](https://github.com/SebastienHUGDELARAUZE/ue-os-project/workflows/CI%20for%20C99/badge.svg?branch=master)
+![CI for OS-Project](https://github.com/SebastienHUGDELARAUZE/ue-os-project/workflows/CI%20for%20OS-Project/badge.svg?branch=master)
 
 > Based on C on linux.
 
