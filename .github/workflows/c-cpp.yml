@@ -23,6 +23,10 @@ jobs:
     runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@v2
+      - name: Install Python 3
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.x
       - name: make install_deps
         run: make install_deps
       - uses: actions/download-artifact@v2
