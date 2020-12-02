@@ -27,10 +27,12 @@ jobs:
         uses: actions/setup-python@v2
         with:
           python-version: 3.x
-      - name: make install_deps
-        run: make install_deps
       - uses: actions/download-artifact@v2
         with:
           name: shell-artifact
+      - name: "Check dir"
+        run: ls -la
+      - name: make install_deps
+        run: make install_deps
       - name: make run_test
         run: make run_test
