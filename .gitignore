@@ -2,4 +2,6 @@
 helper/
 
 compile.sh
+main_flex.c
+main
 *.o
