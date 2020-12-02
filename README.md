@@ -1,17 +1,12 @@
-# SHELL Project 
+# SHELL Project
 
 ![CI for OS-Project](https://github.com/SebastienHUGDELARAUZE/ue-os-project/workflows/CI%20for%20OS-Project/badge.svg?branch=master)
 
-> Based on C on linux.
+> Based on C99 & Linux.  
+> Maintainer: Sébastien HUG DE LARAUZE ([GitHub](https://github.com/SebastienHUGDELARAUZE/ue-os-project))  
+> Educator: Eric TOTEL (IMT Atlantique)
 
-Files of interest:
-
-- `grammar.y`
-- `syntax.flex`
-- `shell.c`
-- `shell.h`
-
-## Getting started
+## Usages
 
 - To build the project, you can use the makefile task `build`:
 
@@ -51,7 +46,7 @@ Files of interest:
 - [ ] **FEAT-5**: Background task
   - [ ] **BACKG**: `&`: Create background task
 
-## Use case
+### Use case
 
 - [ ] Case: Command with/without arguments
 
@@ -71,9 +66,9 @@ Files of interest:
       > ls -al | grep fichier
       [mon fichier.txt & fichier2.txt]
 
-## Test case
+### Test case
 
-### FEAT-1 | VAR
+#### FEAT-1 | VAR
 
 - [ ] [**REQUIRED**] Assign and access word value
 
@@ -92,7 +87,7 @@ Files of interest:
       > echo $var
       IMT Atlantique
 
-### FEAT-3 | EXEC-CMD
+#### FEAT-3 | EXEC-CMD
 
 - [ ] [**REQUIRED**] Execute external command (w/o args)
 
@@ -109,7 +104,7 @@ Files of interest:
       > ls -al
       [folder content]
 
-### FEAT-4 | REDIR
+#### FEAT-4 | REDIR
 
 - [ ] [**REQUIRED**] Redirect to file (overwrite)
 
@@ -128,9 +123,23 @@ Files of interest:
       > ls -al | grep e
       [folder content filtered by letter 'e']
 
-### FEAT-5 | BACKG
+#### FEAT-5 | BACKG
 
 - [ ] [**REQUIRED**] Execute a command in background
 
       > ls &
       [PID]
+
+## Notes
+
+Sources:
+
+- [Python module: subprocess manager **Pexpect**](https://pexpect.readthedocs.io/en/stable/index.html)
+- [Python module: test framework **PyTest**](https://docs.pytest.org/en/stable/contents.html)
+
+Files of interest:
+
+- `grammar.y`
+- `syntax.flex`
+- `shell.c`
+- `shell.h`

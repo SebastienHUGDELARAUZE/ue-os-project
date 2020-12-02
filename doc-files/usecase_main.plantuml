@@ -2,7 +2,7 @@
 start
 :Command;
 :**Read** & **Parse**;
-if (Command?) then (External)
+if (Internal?) then (No)
     if (Exist in absolute path) then (Found)
         :**Execute**;
         stop
@@ -13,7 +13,7 @@ if (Command?) then (External)
         :**Return** error message;
         end
     endif
-else (Internal)
+else (Yes)
     :**Execute**;
     stop
 endif
