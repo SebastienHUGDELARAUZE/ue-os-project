@@ -1,4 +1,2 @@
 pexpect
-pylint
 pytest
-rope

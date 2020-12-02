@@ -1,4 +1,4 @@
-name: CI for C99
+name: CI for OS-Project
 
 on:
   push:
@@ -16,8 +16,8 @@ jobs:
     - name: make
       run: make
       
-    - name: install python requirements
-      run: pip install -r test/requirements.txt
+    - name: make install_deps
+      run: make install_deps
       
     - name: make run_test
       run: make run_test
