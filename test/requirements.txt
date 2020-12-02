@@ -1,0 +1,4 @@
+pexpect
+pylint
+pytest
+rope

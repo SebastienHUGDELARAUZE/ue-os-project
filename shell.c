@@ -4,7 +4,7 @@
 
 #include "shell.h"
 
-char GlobalPath[256] = "";
+char GlobalPath[BUFFER_SIZE] = "";
 
 void showPath()
 {
@@ -20,7 +20,8 @@ void deletePath()
 
 void addPath(char *path)
 {
-	strncat(GlobalPath, ":", 100);
+	if (GlobalPath[0] != '\0')
+		strncat(GlobalPath, ":", 100);
 	strncat(GlobalPath, path, 100);
 	printf("PATH=%s\n",GlobalPath);
 	displayPrompt();
@@ -28,8 +29,8 @@ void addPath(char *path)
 
 void displayPwd()
 {
-	char buf[256] = "";
-	getcwd(buf, 256);
+	char buf[BUFFER_SIZE] = "";
+	getcwd(buf, BUFFER_SIZE);
 	printf("PWD=%s\n", buf);
 	displayPrompt();
 }

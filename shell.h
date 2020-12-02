@@ -1,3 +1,5 @@
+#define BUFFER_SIZE 256
+
 extern void showPath();
 extern void deletePath();
 extern void addPath(char*);

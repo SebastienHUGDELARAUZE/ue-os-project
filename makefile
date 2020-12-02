@@ -1,3 +1,5 @@
+.PHONY: run_test
+
 build: main
 build_parser: syntax.c
 
@@ -21,7 +23,13 @@ shell.o:
 main: main.o syntax.o shell.o
 	gcc -o main shell.o syntax.o main.o
 
-# MAINTENANCE
+# UTILITIES
+
+install_deps:
+	pip install -r test/requirements.txt
+
+run_test:
+	pytest test/ -vs
 
 clean:
 	rm -rf main.c syntax.c

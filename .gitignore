@@ -1,7 +1,12 @@
+.pytest_cache/
+__pycache__/
 .vscode/
 helper/
+venv/
 
 compile.sh
 main_flex.c
+syntax.c
+main.c
 main
 *.o
