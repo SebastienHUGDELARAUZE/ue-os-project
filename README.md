@@ -9,6 +9,20 @@ Files of interest:
 - `shell.c`
 - `shell.h`
 
+## Getting started
+
+- To build the project, you can use the makefile task `build`:
+
+      $ make build
+      gcc ...
+
+  > Will produce an executable called `main`
+
+- To clean the project afterward, use the task `clean`:
+
+      $ make clean
+      rm ...
+
 ## Specifications
 
 - [ ] **FEAT-1**: managed variables
