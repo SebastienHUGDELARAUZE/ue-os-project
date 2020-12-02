@@ -11,15 +11,22 @@ jobs:
     runs-on: ubuntu-18.04
 
     steps:
-    - uses: actions/checkout@v2
-    - name: make
-      run: make
+      - uses: actions/checkout@v2
+      - name: Build Shell
+        run: make
+      - uses: actions/upload-artifact@v2
+        with:
+          name: shell-artifact
+          path: main
     
   test:
     runs-on: ubuntu-18.04
     steps:
-    - name: make install_deps
-      run: make install_deps
-      
-    - name: make run_test
-      run: make run_test
+      - uses: actions/checkout@v2
+      - name: make install_deps
+        run: make install_deps
+      - uses: actions/download-artifact@v2
+        with:
+          name: shell-artifact
+      - name: make run_test
+        run: make run_test
