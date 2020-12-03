@@ -12,9 +12,9 @@ extern char * yytext;
 %}
 
 //Symboles terminaux qui seront fournis par yylex()
-%token ENTIER
 %token PATH
 %token STRING
+%token INTEGER
 
 %token CMDECHO
 

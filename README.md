@@ -143,3 +143,11 @@ Files of interest:
 - `syntax.flex`
 - `shell.c`
 - `shell.h`
+
+Bison & Flex:
+
+- [1. Flexible Bison: Compiler Theory](https://starbeamrainbowlabs.com/blog/article.php?article=posts/258-Languages-and-Compilers-Intro.html)
+- [2. Compilers 101: Build your own flex + bison compiler in a few easy(?) steps](https://starbeamrainbowlabs.com/blog/article.php?article=posts%2F267-Compilers-101.html)
+- [3. Introducing Flex and Bison](https://www.oreilly.com/library/view/flex-bison/9780596805418/ch01.html)
+- [4. Flex and Bison in C++](http://www.jonathanbeard.io/tutorials/FlexBisonC%2B%2B)
+- [X. Our simple calculator: now using flex to generate the scanner](https://www.usna.edu/Users/cs/lmcdowel/courses/si413/F10/labs/L04/calc1/ex1.html)

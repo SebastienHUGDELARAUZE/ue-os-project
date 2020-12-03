@@ -43,7 +43,7 @@ run_funtional_test:
 # CLEAN
 
 soft_clean:
-	rm -rf main main.c syntax.c
+	rm -rf main main.c main.h syntax.c
 	rm -rf *.o
 
 clean: soft_clean
