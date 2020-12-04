@@ -6,7 +6,7 @@
 
 char GlobalPath[BUFFER_SIZE] = "";
 
-void showPath()
+void displayPath()
 {
 	printf("PATH=%s\n", GlobalPath);
 	displayPrompt();
@@ -27,7 +27,7 @@ void addPath(char *path)
 	displayPrompt();
 }
 
-void displayPwd()
+void displayWD()
 {
 	char buf[BUFFER_SIZE] = "";
 	getcwd(buf, BUFFER_SIZE);

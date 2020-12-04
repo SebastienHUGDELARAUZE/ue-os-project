@@ -8,6 +8,7 @@
 blanks      [ \t\n]+
 integer     [0-9]+
 path        [a-zA-Z0-9\/]+
+argument    -[a-zA-Z0-9\/]+
 string	    \"[ a-zA-Z0-9\/]+\"
 
 cmdecho     echo
@@ -21,13 +22,13 @@ cmdshowpath showpath
 
 {blanks}        { /* ignore */ }
 
-{cmdecho}       { return(CMDECHO); } 
+{cmdecho}       { return CMD_ECHO; } 
+{cmdpwd}    	{ return CMD_PWD; }
+{cmddelpath}	{ return CMD_DELPATH; }
+{cmdshowpath} 	{ return CMD_SHOWPATH; }
+{cmdaddpath}    { return CMD_ADDPATH; } 
 
-{cmdpwd}    	{ return(CMDPWD); }
-{cmddelpath}	{ return(DELPATH); }
-{cmdshowpath} 	{ return(SHOWPATH); }
-{cmdaddpath}    { return(ADDPATH); } 
-
-{integer}    	{ return(INTEGER); }
-{path}		    { return(PATH); }
-{string}        { return(STRING); }
+{integer}    	{ return INTEGER; }
+{path}		    { return PATH; }
+{argument}      { return ARG; }
+{string}        { return STRING; }

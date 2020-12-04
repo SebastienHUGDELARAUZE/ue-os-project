@@ -7,7 +7,7 @@ build_parser: syntax.c
 # COMPILATION
 
 main.c:
-	bison grammar.y --defines=main.h -o main.c
+	bison grammar.y --defines=main.h -o main.c -Wcex --graph
 
 main.o: main.c
 	gcc -c main.c
@@ -43,7 +43,8 @@ run_funtional_test:
 # CLEAN
 
 soft_clean:
-	rm -rf main main.c main.h syntax.c
+	rm -rf main.c main.h main.dot main.output
+	rm -rf syntax.c
 	rm -rf *.o
 
 clean: soft_clean
