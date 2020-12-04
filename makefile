@@ -26,8 +26,29 @@ main: main.o syntax.o shell.o
 
 # INSTALL
 
-install_deps:
-	pip install -r test/requirements.txt
+venv:
+	python3 -m venv venv
+
+install_deps: venv
+	( \
+		. venv/bin/activate; \
+		pip install -r requirements.txt; \
+	)
+
+install_dev_deps: install_deps
+	( \
+		. venv/bin/activate; \
+		pip install -r requirements-dev.txt; \
+	)
+
+# DOCS
+
+build_docs:
+	( \
+		. venv/bin/activate; \
+		cd doc-files/; \
+		python rr-docs.py; \
+	)
 
 # TEST
 

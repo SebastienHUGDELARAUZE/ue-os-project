@@ -6,8 +6,13 @@ helper/
 venv/
 
 compile.sh
+
 main_flex.c
-syntax.c
+main.dot
+main.h
 main.c
 main
+
+syntax.c
+
 *.o
