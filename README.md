@@ -22,11 +22,11 @@
 
 ## Shell specifications
 
-[See SPECIFICATIONS](./SPECIFICATIONS.md) file
+[See SPECIFICATIONS](./SPECIFICATIONS.md) file.
 
 ## Test specifications
 
-[See SPECIFICATIONS-TEST](./SPECIFICATIONS-TEST.md)
+[See SPECIFICATIONS-TEST](./SPECIFICATIONS-TEST.md) file.
 
 ## Notes
 
