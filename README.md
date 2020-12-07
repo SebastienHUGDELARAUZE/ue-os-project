@@ -28,6 +28,19 @@
 
 [See SPECIFICATIONS-TEST](./SPECIFICATIONS-TEST.md) file.
 
+## Process
+
+1. Lexical analysis
+   - _Flex file:_ Recognize all tokens
+   - _Bison file:_ Dummy logic (Accept all tokens)
+     - **Action:** Display tokens
+2. Syntax analysis
+   - _Bison file:_ Write complete grammar
+     - **Action:** Display token reduction
+3. Semantic analysis
+   - Build/Calculate useful data
+4. Error recovery
+
 ## Notes
 
 Sources:
@@ -45,6 +58,7 @@ Files of interest:
 Documentation on Bison and Flex:
 
 - [Bison documentation](https://www.gnu.org/software/bison/manual/bison.html)
+- [Flex documenation](http://gensoft.pasteur.fr/docs/flex/2.6.1/index.html)
 
 Tutorials:
 
