@@ -31,12 +31,12 @@
 ## Process
 
 1. Lexical analysis
-   - _Flex file:_ Recognize all tokens
-   - _Bison file:_ Dummy logic (Accept all tokens)
-     - **Action:** Display tokens
+   - **Flex file:** Recognize all tokens
+   - **Bison file:** Dummy logic (Accept all tokens)
+     - _Action:_ Display tokens
 2. Syntax analysis
-   - _Bison file:_ Write complete grammar
-     - **Action:** Display token reduction
+   - **Bison file:** Write complete grammar
+     - _Action:_ Display token reduction
 3. Semantic analysis
    - Build/Calculate useful data
 4. Error recovery
@@ -50,10 +50,10 @@ Sources:
 
 Files of interest:
 
-- `grammar.y`
-- `syntax.flex`
-- `shell.c`
-- `shell.h`
+    > grammar.y         // Parser (GNU Bison)
+    > syntax.flex       // Scanner (Flex)
+    > shell.c           // SHELL program (source)
+    > shell.h           // SHELL program (header)
 
 Documentation on Bison and Flex:
 
