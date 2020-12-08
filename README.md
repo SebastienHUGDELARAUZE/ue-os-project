@@ -30,18 +30,18 @@
 
 ## Process
 
-1. Lexical analysis
+1. Lexical analysis (:construction:)
    - **Flex file:** Recognize all tokens
    - **Bison file:** Dummy logic (Accept all tokens)
      - _Action:_ Display tokens
-2. Syntax analysis
+2. Syntax analysis (:construction:)
    - **Bison file:** Write complete grammar
      - _Action:_ Display token reduction
-3. Semantic analysis
+3. Semantic analysis (:construction:)
    - Build/Calculate useful data
-4. Error recovery
+4. Error recovery (:construction:)
 
-## Notes
+## :memo: Notes
 
 Sources:
 
@@ -72,3 +72,7 @@ Tutorials:
 - [3. Introducing Flex and Bison](https://www.oreilly.com/library/view/flex-bison/9780596805418/ch01.html)
 - [4. Flex and Bison in C++](http://www.jonathanbeard.io/tutorials/FlexBisonC%2B%2B)
 - [X. Our simple calculator: now using flex to generate the scanner - READ](https://www.usna.edu/Users/cs/lmcdowel/courses/si413/F10/labs/L04/calc1/ex1.html)
+
+Others:
+
+- [Markdown emoji](https://gist.github.com/rxaviers/7360908)
