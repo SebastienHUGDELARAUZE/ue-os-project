@@ -1,4 +1,4 @@
-```puml
+@startuml usecase_main
 start
 :Command;
 :**Read** & **Parse**;
@@ -17,4 +17,4 @@ else (Yes)
     :**Execute**;
     stop
 endif
-```
+@enduml

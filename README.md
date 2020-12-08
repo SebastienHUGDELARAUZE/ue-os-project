@@ -60,6 +60,11 @@ Documentation on Bison and Flex:
 - [Bison documentation](https://www.gnu.org/software/bison/manual/bison.html)
 - [Flex documenation](http://gensoft.pasteur.fr/docs/flex/2.6.1/index.html)
 
+Regular expression:
+
+- [Regex101](https://regex101.com/)
+- [Railroad diagram](https://regexper.com/)
+
 Tutorials:
 
 - [1. Flexible Bison: Compiler Theory - DONE](https://starbeamrainbowlabs.com/blog/article.php?article=posts/258-Languages-and-Compilers-Intro.html)

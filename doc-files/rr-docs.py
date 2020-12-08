@@ -9,14 +9,16 @@ def main():
     Parser().create_diagram()
 
 ########################################################################
+# PARSER                                                               #
+########################################################################
 
 class Parser:
     echo_cmd = rr.Sequence(
         "echo",
-        rr.Choice(0,
-            rr.NonTerminal("PATH"),
-            rr.NonTerminal("STRING"),
-            rr.Comment("COMMAND")
+        rr.Choice(1,
+            rr.NonTerminal("{string}"),
+            rr.NonTerminal("{path}"),
+            rr.Comment("{command}")
         )
     )
 
@@ -26,7 +28,7 @@ class Parser:
 
     addpath_cmd = rr.Sequence(
         "addpath",
-        rr.NonTerminal("PATH"),
+        rr.NonTerminal("{path}"),
     )
 
     delpath_cmd = rr.Terminal("delpath")
@@ -47,33 +49,102 @@ class Parser:
     external_cmd = rr.Group(
         rr.Sequence(
             rr.MultipleChoice(0, "any",
-                rr.NonTerminal("PATH"),
-                rr.NonTerminal("ARG"),
+                rr.NonTerminal("{path}"),
+                rr.NonTerminal("{arg}"),
             ),
-            rr.NonTerminal("EOL")
+            # rr.Terminal("<<EOL>>")
         ),
         "external_cmd"
     )
 
     ########################################################################
 
-    parser = rr.Diagram(
+    variables = rr.Group(
+        rr.Choice(0,
+            rr.Sequence(
+                rr.NonTerminal("{id}"),
+                rr.Terminal("="),
+                rr.Choice(0,
+                    rr.NonTerminal("{word}"),
+                    rr.NonTerminal("{string}"),
+                )
+            ),
+            rr.Sequence(
+                "$",
+                rr.NonTerminal("{id}"),
+            )
+        ),
+        "variables"
+    )
+
+    ########################################################################
+
+    handlers = rr.Group(
+        rr.Sequence(
+            rr.Choice(0,
+                rr.Sequence(">", rr.NonTerminal("{path}")),
+                rr.Sequence(">>", rr.NonTerminal("{path}")),
+                rr.Sequence("|", rr.NonTerminal("[CMD]")),
+                rr.Sequence("&"),
+            )
+        ),
+        "handlers_cmd"
+    )
+
+    ########################################################################
+
+    cmd = rr.Group(
+        rr.Choice(1,
+            rr.NonTerminal("[variables]"),
+            rr.NonTerminal("[internal_cmd]"),
+            rr.NonTerminal("[external_cmd]"),
+        ),
+        "CMD"
+    )
+
+    shell = rr.Sequence(
+        cmd,
+        handlers,
+    )
+        
+    ########################################################################
+
+    parser_SHELL = rr.Diagram(
         rr.Start(label="Parser"),
-        rr.MultipleChoice(0, "any",
-            internal_cmd,
-            external_cmd,
-            rr.Skip(),
-            rr.Comment("error")
+        rr.Choice(0,
+            shell,
+            rr.Comment("ERROR"),
         )
     )
 
+    parser_VAR = rr.Diagram(
+        rr.Start(type="complex", label="variables"),
+        variables,
+        rr.End(type="complex")
+    )
+
+    parser_INT_CMD = rr.Diagram(
+        rr.Start(type="complex", label="internal_cmd"),
+        internal_cmd,
+        rr.End(type="complex")
+    )
+
+    parser_EXT_CMD = rr.Diagram(
+        rr.Start(type="complex", label="external_cmd"),
+        external_cmd,
+        rr.End(type="complex")
+    )
+
     def create_diagram(self):
-        generate_svg(self.parser, "parser")
+        generate_svg(self.parser_SHELL, "parser-SHELL")
+        generate_svg(self.parser_VAR, "parser-VAR")
+        generate_svg(self.parser_INT_CMD, "parser-INT-CMD")
+        generate_svg(self.parser_EXT_CMD, "parser-EXT-CMD")
 
 ########################################################################
 
 def generate_svg(diagram, name):
-    with open('%s.svg' % name, 'w') as foutput_svg:
+    with open('img/%s.svg' % name, 'w') as foutput_svg:
         diagram.writeSvg(foutput_svg.write)
 
 ########################################################################

@@ -1,8 +1,8 @@
-bison-flex-testing/
+.bison-flex-testing/
 .pytest_cache/
 __pycache__/
 .vscode/
-helper/
+.helper/
 venv/
 
 compile.sh

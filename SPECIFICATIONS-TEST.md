@@ -4,7 +4,7 @@
 
 - [ ] Case: Command with/without arguments
 
-![usecase main](doc-files/usecase_main.png)
+![usecase main](doc-files/img/usecase_main.png)
 
 - [ ] Case: End result
 
