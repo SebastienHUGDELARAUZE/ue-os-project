@@ -1,72 +1,65 @@
-.PHONY: build
+all: shell test
 
-all: build run_test soft_clean
-build: main
-build_parser: syntax.c
+##############################################################
+###### Python Virtual Env
 
-# COMPILATION
+VENV_NAME?=venv
+PYTHON=${VENV_NAME}/bin/python
 
-main.c:
-	bison grammar.y --defines=main.h -o main.c -Wcex --graph
+.PHONY: prepare_venv prepare_venv_dev prepare_ci_env
 
-main.o: main.c
-	gcc -c main.c
+prepare_ci_env:
+	pip install -r test/requirements.txt
 
-syntax.c:
-	flex -o syntax.c syntax.flex
+prepare_venv: ${VENV_NAME}/bin/activate
 
-syntax.o: syntax.c
-	gcc -c syntax.c
+prepare_venv_dev: prepare_venv
+	${PYTHON} -m pip install -r requirements.txt
+	touch ${VENV_NAME}/bin/activate
 
-shell.o:
-	gcc -c shell.c
+${VENV_NAME}/bin/activate: test/requirements.txt
+	test -d ${VENV_NAME} || python3 -m venv ${VENV_NAME}
+	${PYTHON} -m pip install -r test/requirements.txt
+	touch ${VENV_NAME}/bin/activate
 
-main: main.o syntax.o shell.o
-	gcc -o main shell.o syntax.o main.o
+##############################################################
+###### SHELL DIR
 
-# INSTALL
+shell:
+	(cd src/; make build_shell clean)
 
-venv:
-	python3 -m venv venv
+scanner:
+	(cd src/; make build_scanner clean)
 
-install_deps: venv
-	( \
-		. venv/bin/activate; \
-		pip install -r requirements.txt; \
-	)
+parser:
+	(cd src/; make build_parser clean)
 
-install_dev_deps: install_deps
-	( \
-		. venv/bin/activate; \
-		pip install -r requirements-dev.txt; \
-	)
+install: shell
+	(cp src/shell .)
 
-# DOCS
+###### DOCS DIR
 
-build_docs:
-	( \
-		. venv/bin/activate; \
-		cd doc-files/; \
-		python rr-docs.py; \
-	)
+build_docs: prepare_venv_dev
+	(cd doc-files/; make VENV_NAME=${VENV_NAME})
 
-# TEST
+###### TEST DIR
 
-run_all_test:
-	pytest test/ -vs
+test: prepare_venv install
+	(cd test; make run_all_test)
 
-run_unit_test:
-	pytest test/ -vs -m unit_test
+unit_test: prepare_venv install
+	(cd test; make run_unit_test)
 
-run_funtional_test:
-	pytest test/ -vs -m functional_test
+func_test: prepare_venv install
+	(cd test; make run_funtional_test)
 
-# CLEAN
+ci_test:
+	(cd test; make run_all_test)
 
-soft_clean:
-	rm -rf main.c main.h main.dot main.output
-	rm -rf syntax.c
-	rm -rf *.o
+###### CLEAN
 
-clean: soft_clean
-	rm -rf main
+clean:
+	(cd src/; make realclean)
+
+realclean: clean
+	rm -rf shell

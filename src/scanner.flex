@@ -1,5 +1,5 @@
 %{
-#include "main.h"
+#include "parser.h"
 #define YYSTYPE char*
 %}
 

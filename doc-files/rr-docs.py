@@ -144,8 +144,10 @@ class Parser:
 ########################################################################
 
 def generate_svg(diagram, name):
+    print("Generating %s..." % name, end='')
     with open('img/%s.svg' % name, 'w') as foutput_svg:
         diagram.writeSvg(foutput_svg.write)
+    print("DONE")
 
 ########################################################################
 

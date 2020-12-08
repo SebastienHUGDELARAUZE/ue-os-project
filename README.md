@@ -55,10 +55,11 @@ Files of interest:
     > shell.c           // SHELL program (source)
     > shell.h           // SHELL program (header)
 
-Documentation on Bison and Flex:
+Documentations:
 
-- [Bison documentation](https://www.gnu.org/software/bison/manual/bison.html)
+- [GNU Bison documentation](https://www.gnu.org/software/bison/manual/bison.html)
 - [Flex documenation](http://gensoft.pasteur.fr/docs/flex/2.6.1/index.html)
+- [GNU Make](https://www.gnu.org/software/make/manual/make.html)
 
 Regular expression:
 
@@ -72,7 +73,9 @@ Tutorials:
 - [3. Introducing Flex and Bison](https://www.oreilly.com/library/view/flex-bison/9780596805418/ch01.html)
 - [4. Flex and Bison in C++](http://www.jonathanbeard.io/tutorials/FlexBisonC%2B%2B)
 - [X. Our simple calculator: now using flex to generate the scanner - READ](https://www.usna.edu/Users/cs/lmcdowel/courses/si413/F10/labs/L04/calc1/ex1.html)
+- [:mag: Multilevel Makefile](http://aggregate.org/rfisher/Tutorials/Make/make6.html)
 
 Others:
 
 - [Markdown emoji](https://gist.github.com/rxaviers/7360908)
+- [Makefile python venv](https://www.dinotools.de/en/2019/12/23/use-python-with-virtualenv-in-makefiles/)

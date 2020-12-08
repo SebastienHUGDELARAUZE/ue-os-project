@@ -14,12 +14,12 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v2
       - name: Build Shell
-        run: make build
+        run: make shell
       - name: Archive Shell artifact
         uses: actions/upload-artifact@v2
         with:
           name: shell-artifact
-          path: main
+          path: src/shell
     
   Test:
     needs: Build
@@ -31,13 +31,13 @@ jobs:
         uses: actions/setup-python@v2
         with:
           python-version: 3.x
-      - name: Make install_deps
-        run: make install_deps
       - name: Use Shell artifact
         uses: actions/download-artifact@v2
         with:
           name: shell-artifact
       - name: Make shell executable
-        run: chmod +x ./main
+        run: chmod +x ./shell
+      - name: Install python dependencies
+        run: make prepare_ci_env
       - name: Run all tests
-        run: make run_all_test
+        run: make ci_test

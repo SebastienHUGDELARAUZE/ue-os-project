@@ -5,14 +5,13 @@ __pycache__/
 .helper/
 venv/
 
-compile.sh
+shell
 
-main_flex.c
-main.dot
-main.h
-main.c
-main
+parser.c
+parser.h
+parser.dot
+parser.output
 
-syntax.c
+scanner.c
 
 *.o
