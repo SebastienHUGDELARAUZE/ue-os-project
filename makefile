@@ -28,6 +28,9 @@ ${VENV_NAME}/bin/activate: test/requirements.txt
 shell:
 	(cd src/; make build_shell clean)
 
+run_shell: install
+	(./shell)
+
 scanner:
 	(cd src/; make build_scanner clean)
 
@@ -51,7 +54,7 @@ unit_test: prepare_venv install
 	(cd test; make run_unit_test)
 
 func_test: prepare_venv install
-	(cd test; make run_funtional_test)
+	(cd test; make run_functional_test)
 
 ci_test:
 	(cd test; make run_all_test)

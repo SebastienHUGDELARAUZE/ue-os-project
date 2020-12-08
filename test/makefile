@@ -14,5 +14,5 @@ run_all_test: ${SHELL_PATH}
 run_unit_test: ${SHELL_PATH}
 	${PYTHON} -m pytest . -vs -m unit_test
 
-run_funtional_test: ${SHELL_PATH}
+run_functional_test: ${SHELL_PATH}
 	${PYTHON} -m pytest . -vs -m functional_test
