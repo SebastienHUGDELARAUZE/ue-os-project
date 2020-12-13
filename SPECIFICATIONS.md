@@ -37,7 +37,11 @@
 
 ## Shell **SCANNER** Definition
 
-> Token specification
+> Token specification:  
+> `TOKEN_NAME` - Regex: `regular expression`
+
+- `EOL` - Regex: `\n`
+- `BLANK` - Regex: `[ \t]` _(Activation uniquement lors de la détection d'une variable)_
 
 ### VARIABLE TOKENS
 
@@ -73,15 +77,15 @@
 
 ### TOKEN: **{string}**
 
-- name: `STR`
+- name: `STRING`
 - RegEx: `\"[[:alnum:][:blank:]/_]+\"`  
 ![STRING RegEx: \"[a-zA-Z0-9\t\ \/_]+\"](doc-files/img/regex-STRING.svg)
 
 ### TOKEN: **{path}**
 
 - name: `PATH`
-- RegEx: `[[:alnum:]_\/]+`  
-![PATH RegEx: [a-zA-Z0-9_\/]+](doc-files/img/regex-PATH.svg)
+- RegEx: `[[:alnum:]_/.]+`  
+![PATH RegEx: [a-zA-Z0-9_\/.]+](doc-files/img/regex-PATH.svg)
 
 ### TOKEN: **{command}**
 
@@ -92,5 +96,5 @@
 ### TOKEN: **{arg}**
 
 - name: `ARG`
-- RegEx: `\-[[:alpha:]]+`  
+- RegEx: `-[[:alpha:]]+`  
 ![ARG RegEx: \-[a-zA-Z]+](doc-files/img/regex-ARG.svg)

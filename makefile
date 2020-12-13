@@ -25,6 +25,8 @@ ${VENV_NAME}/bin/activate: test/requirements.txt
 ##############################################################
 ###### SHELL DIR
 
+.PHONY: shell
+
 shell:
 	(cd src/; make build_shell clean)
 
@@ -38,7 +40,7 @@ parser:
 	(cd src/; make build_parser clean)
 
 install: shell
-	(cp src/shell .)
+	(cp ./src/shell .)
 
 ###### DOCS DIR
 
