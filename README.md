@@ -30,11 +30,11 @@
 
 ## Process
 
-1. Lexical analysis (:construction:)
+1. Lexical analysis (:heavy_check_mark:)
    - **Flex file:** Recognize all tokens
    - **Bison file:** Dummy logic (Accept all tokens)
      - _Action:_ Display tokens
-2. Syntax analysis (:construction:)
+2. Syntax analysis (:heavy_check_mark:)
    - **Bison file:** Write complete grammar
      - _Action:_ Display token reduction
 3. Semantic analysis (:construction:)
@@ -68,12 +68,14 @@ Regular expression:
 
 Tutorials:
 
+- [SO: Check semantic value](https://stackoverflow.com/questions/52136092/how-to-check-semantic-values-of-tokens-in-flex-bison)
+
 - [1. Flexible Bison: Compiler Theory - DONE](https://starbeamrainbowlabs.com/blog/article.php?article=posts/258-Languages-and-Compilers-Intro.html)
 - [2. Compilers 101: Build your own flex + bison compiler in a few easy(?) steps](https://starbeamrainbowlabs.com/blog/article.php?article=posts%2F267-Compilers-101.html)
 - [3. Introducing Flex and Bison](https://www.oreilly.com/library/view/flex-bison/9780596805418/ch01.html)
 - [4. Flex and Bison in C++](http://www.jonathanbeard.io/tutorials/FlexBisonC%2B%2B)
 - [X. Cours ENIB Bison/Flex](https://www.enib.fr/~harrouet/Data/Courses/Flex_Bison.pdf)
-- [X. Our simple calculator: now using flex to generate the scanner - READ](https://www.usna.edu/Users/cs/lmcdowel/courses/si413/F10/labs/L04/calc1/ex1.html)
+- [X. Interactive Mode Bison](https://www.cs.uic.edu/~spopuri/ibison.html)
 - [:mag: Multilevel Makefile](http://aggregate.org/rfisher/Tutorials/Make/make6.html)
 
 Others:

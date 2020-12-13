@@ -16,8 +16,8 @@ class Parser:
     echo_cmd = rr.Sequence(
         "echo",
         rr.Choice(1,
-            rr.NonTerminal("{string}"),
             rr.NonTerminal("{path}"),
+            rr.NonTerminal("{string}"),
             rr.Comment("{command}")
         )
     )
