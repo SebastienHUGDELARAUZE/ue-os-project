@@ -1,13 +1,11 @@
 #ifndef OS_PROJECT_LIST_H
 #define OS_PROJECT_LIST_H
 
-// region TYPE DEFINITION
 
 typedef struct Node {
     void *item;
     struct Node *next ;
 } Node;
-
 typedef Node *NodePtr;
 
 typedef struct List {
@@ -15,24 +13,13 @@ typedef struct List {
     struct Node *first;
     struct Node *last;
 } List;
-
 typedef List *ListPtr;
 
 typedef void *VoidPtr;
 
-// typedef void (*fctPtr)(void *);
-
-// typedef enum {LESSER = -1, EQUAL = 0, GREATER = 1} cmpResult;
-
 typedef bool (*fctCmp)(void*, void*);
 
-// typedef cmpResult (*fctCmp)(void *, void*);
 
-// endregion
-
-
-
-// region METHOD DEFINITION
 
 /**
  * @brief Create new list
@@ -83,14 +70,7 @@ extern VoidPtr getListNode(ListPtr list, fctCmp isNodeCmpFct, VoidPtr targetItem
  */
 // extern void deleteNodeFromList(ListPtr list, NodePtr node);
 
-// endregion
-
-
-
-// region ERROR DEFINITION
 
 // #define ERROR_CMPRESULT_INVALID "[ERROR] Unknown result value (=%d)"
-
-// endregion
 
 #endif /* OS_PROJECT_LIST_H */
