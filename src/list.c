@@ -1,7 +1,3 @@
-//
-// Created by HugeeeGamerz on 20/11/2020.
-//
-
 #include "list.h"
 
 // region PRIVATE DECLARATION
@@ -14,7 +10,7 @@ NodesPtr getNodesPtr(ListPtr);
 // region PUBLIC METHODS
 ListPtr newList() {
     ListPtr list = malloc(sizeof(List));
-    list->nEntries = 0;
+    list->count = 0;
     list->first = NULL;
     list->last = NULL;
 
@@ -23,7 +19,7 @@ ListPtr newList() {
 
 void freeList(ListPtr list) {
     NodePtr *nodes = getNodesPtr(list);
-    for (int node_index = 0; node_index < list->nEntries; ++node_index)
+    for (int node_index = 0; node_index < list->count; ++node_index)
         free(nodes[node_index]);
     free(list);
 }
@@ -33,13 +29,13 @@ NodePtr addListNode(ListPtr list, VoidPtr item) {
     node->item = item;
     node->next = NULL;
 
-    if (list->nEntries == 0) {  // Empty list
+    if (list->count == 0) {  // Empty list
         list->first = list->last = node;
     } else { // Not empty list
         NodePtr previousNode = list->last;
         previousNode->next = list->last = node;
     }
-    list->nEntries++;
+    list->count++;
 
     return node;
 }
@@ -65,7 +61,7 @@ void permuteNodeValue(NodePtr currentNode) {
 }
 
 NodePtr *getNodesPtr(ListPtr list) {
-    NodePtr *nodes = malloc(sizeof(NodePtr) * list->nEntries);
+    NodePtr *nodes = malloc(sizeof(NodePtr) * list->count);
 
     NodePtr currentNode = list->first;
     for (int node_index = 0; currentNode; ++node_index) {
@@ -76,4 +72,3 @@ NodePtr *getNodesPtr(ListPtr list) {
     return nodes;
 }
 // endregion
-

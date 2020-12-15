@@ -1,8 +1,10 @@
 .bison-flex-testing/
 .pytest_cache/
-__pycache__/
 .vscode/
 .helper/
+
+__pycache__/
+src-test/
 venv/
 
 shell

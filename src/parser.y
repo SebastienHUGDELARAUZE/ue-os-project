@@ -21,12 +21,10 @@ int yylex();
 %token REDIR_OVER REDIR_APP REDIR_CMD BACKG
 %token CMD_ECHO CMD_PWD CMD_SHOWPATH CMD_ADDPATH CMD_DELPATH
 
-%type <str> cmd 
+/* %type <str> cmd  */
 /* %type <str> internal_cmd */
 /* %type <str> external_cmd external_cmd_arg */
 %type <str> variables_access
-
-
 
 %printer { fprintf(yyoutput, "%s", $$); } <str>
 
@@ -45,10 +43,10 @@ shell: %empty
      | shell EOL                                            { printPrompt(); }
 ;
 
-handlers: cmd REDIR_APP PATH                                { printf("[WIP-REDIR A: %s]", $3); }
-        | cmd REDIR_OVER PATH                               { printf("[WIP-REDIR O: %s]", $3); }
-        | cmd REDIR_CMD cmd                                 { printf("[WIP-%s PIPE to %s]", $1, $3); }
-        | cmd BACKG                                         { printf("[WIP-BACKGROUND: %s]", $1); }
+handlers: cmd REDIR_APP PATH                                { /* printf("[WIP-REDIR A: %s]", $3); */ }
+        | cmd REDIR_OVER PATH                               { /* printf("[WIP-REDIR O: %s]", $3); */ }
+        | cmd REDIR_CMD cmd                                 { /* printf("[WIP-%s PIPE to %s]", $1, $3); */ }
+        | cmd BACKG                                         { /* printf("[WIP-BACKGROUND: %s]", $1); */ }
 ;
 
 cmd: internal_cmd
@@ -75,10 +73,10 @@ internal_cmd: CMD_ECHO PATH                                 { echo($2); }
             | CMD_DELPATH                                   { deletePath(); }
 ;
 
-external_cmd: PATH external_cmd_arg                         { printf("[WIP-EXTCMD]"); }
+external_cmd: PATH external_cmd_arg                         { printf("[WIP-EXTCMD: %s]", $1); }
 ;
 
-external_cmd_arg: %empty
+external_cmd_arg: %empty                                    { printf("[WIP-EXTCMD-ARG Init]"); }
                 | external_cmd_arg ARG                      { printf("[WIP-EXTCMD-ARG A: %s]", $2); }
                 | external_cmd_arg PATH                     { printf("[WIP-EXTCMD-ARG P: %s]", $2); }
                 | external_cmd_arg variables_access         { printf("[WIP-EXTCMD-ARG V]"); }

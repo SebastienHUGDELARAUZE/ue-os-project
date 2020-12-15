@@ -1,3 +1,6 @@
+#ifndef OS_PROJECT_SHELL_H
+#define OS_PROJECT_SHELL_H
+
 #include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -20,3 +23,5 @@ extern void addPath(char*);
 extern void deletePath();
 
 extern void stripFL(char* str);
+
+#endif /* OS_PROJECT_SHELL_H */

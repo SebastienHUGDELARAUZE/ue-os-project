@@ -17,7 +17,7 @@ typedef struct Node {
 typedef Node *NodePtr;
 
 typedef struct List {
-    int nEntries;
+    int count;
     struct Node *first;
     struct Node *last;
 } List;
