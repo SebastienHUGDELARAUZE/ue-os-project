@@ -1,4 +1,8 @@
-#include "list.h"
+#include <stdio.h>
+#include <stdbool.h>
+#include <stdlib.h>
+#include <stddef.h>
+#include "liblist.h"
 
 // region PRIVATE DECLARATION
 void permuteNodeValue(NodePtr currentNode);
@@ -40,9 +44,22 @@ NodePtr addListNode(ListPtr list, VoidPtr item) {
     return node;
 }
 
-void applyFunctionToList(ListPtr list, fctPtr function) {
+VoidPtr getListNode(ListPtr list, fctCmp isNodeCmpFct, VoidPtr targetItem) {
+    NodePtr nodeLookup = list->first;
 
+    while (nodeLookup) {
+        VoidPtr item = nodeLookup->item;
+
+        if (isNodeCmpFct(item, targetItem)) return item;
+
+        nodeLookup = nodeLookup->next;
+    }
+    return NULL;
 }
+
+// void applyFunctionToList(ListPtr list, fctPtr function) {
+
+// }
 
 void deleteNodeFromList(ListPtr list, NodePtr node) {
 

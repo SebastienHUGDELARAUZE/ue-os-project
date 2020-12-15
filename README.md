@@ -76,6 +76,9 @@ Tutorials:
 - [4. Flex and Bison in C++](http://www.jonathanbeard.io/tutorials/FlexBisonC%2B%2B)
 - [X. Cours ENIB Bison/Flex](https://www.enib.fr/~harrouet/Data/Courses/Flex_Bison.pdf)
 - [X. Interactive Mode Bison](https://www.cs.uic.edu/~spopuri/ibison.html)
+- [:mag: Creating C Libraries](https://www.cs.swarthmore.edu/~newhall/unixhelp/howto_C_libraries.html)
+- [:mag: C programming](https://randu.org/tutorials/c/index.php)
+- [:mag: Unix PIPE implementation](https://toroid.org/unix-pipe-implementation)
 - [:mag: Multilevel Makefile](http://aggregate.org/rfisher/Tutorials/Make/make6.html)
 
 Others:
