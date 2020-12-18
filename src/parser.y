@@ -30,14 +30,14 @@ int yylex();
 %token ACCESS ASSIGN BLANK EOL
 %token <str> ARG PATH WORD STRING COMMAND
 %token REDIR_OVER REDIR_APP REDIR_CMD BACKG
-%token CMD_ECHO CMD_PWD CMD_SHOWPATH CMD_ADDPATH CMD_DELPATH
+%token CMD_EXIT CMD_ECHO CMD_PWD CMD_SHOWPATH CMD_ADDPATH CMD_DELPATH
 
 %type <str> variable_access
 %type <cmd_req> cmd cmd_internal cmd_external handlers
 %type <list> external_cmd_arg
 
 %printer { fprintf(yyoutput, "%s", $$); } <str>
-%printer { fprintf(yyoutput, "%d (%ld)", $$->type, $$->argc); } <cmd_req>
+%printer { cmd_debug($$); } <cmd_req>
 
 %destructor { free($$); }           <str>
 %destructor { freeCmdReq($$); }     <cmd_req>
@@ -78,7 +78,8 @@ variable_assign: VAR ASSIGN                                 { deleteVariable($1)
 variable_access: ACCESS VAR                                 { $$ = getVariable($2); }
 ;
 
-cmd_internal: CMD_ECHO PATH                                 { $$ = newInternalCmdReqWithArg(ECHO, $2); }
+cmd_internal: CMD_EXIT                                      { printf("[Shell terminated by user]\n"); YYACCEPT; }
+            | CMD_ECHO PATH                                 { $$ = newInternalCmdReqWithArg(ECHO, $2); }
             | CMD_ECHO STRING                               { $$ = newInternalCmdReqWithArg(ECHO, $2); }
             | CMD_ECHO variable_access                      { $$ = newInternalCmdReqWithArg(ECHO, $2); }
             | CMD_PWD                                       { $$ = newInternalCmdReq(PWD); }

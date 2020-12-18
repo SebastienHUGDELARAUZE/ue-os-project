@@ -1,4 +1,3 @@
-#include <sys/types.h>
 #include <sys/wait.h>
 #include <stddef.h>
 #include <stdio.h>
@@ -12,14 +11,16 @@ extern char** environ;
 
 
 void forkHandler(CmdReqPtr cr, fctCmdReq parent, fctCmdReq child);
-void MainThread(CmdReqPtr cr);
-void ExternalCmdProcess(CmdReqPtr cr);
-void ExternalCmdBackgProcess(CmdReqPtr cr);
+
+void MainProcess(pid_t PID, CmdReqPtr cr);
+void ExternalCmdProcess(pid_t PID, CmdReqPtr cr);
+void ExternalCmdBackgProcess(pid_t PID, CmdReqPtr cr);
+void ExternalCmdBackgMonitor(pid_t PID, CmdReqPtr cr);
 
 // EXTERNAL COMMAND FORK HANDLER
 
 void executeExternalCommand(CmdReqPtr cr) {
-	forkHandler(cr, MainThread, ExternalCmdProcess);
+	forkHandler(cr, MainProcess, (cr->flag_backg) ? ExternalCmdBackgProcess : ExternalCmdProcess);
 }
 
 void setupExternalCommandProcess(CmdReqPtr cr) {
@@ -40,35 +41,39 @@ void forkHandler(CmdReqPtr cr, fctCmdReq parentHandler, fctCmdReq childHandler) 
 	}
 
 	if (cpid == 0) {  	// CHILD PROCESS
-		childHandler(cr);
+		childHandler(cpid, cr);
 	} else {  			// PARENT PROCESS
-		parentHandler(cr);
+		parentHandler(cpid, cr);
 	}
 }
 
-void MainThread(CmdReqPtr cr) {
-	// if (!cr->flag_backg)
-	wait(NULL);
+void MainProcess(pid_t PID, CmdReqPtr cr) {
+	if (!cr->flag_backg)
+		wait(NULL);
 }
 
-void ExternalCmdProcess(CmdReqPtr cr) {
+void ExternalCmdProcess(pid_t PID, CmdReqPtr cr) {
 	setupExternalCommandProcess(cr);
 
 	execvp(cr->argv[0], cr->argv);
-	
+
 	perror("(External command failed)");
 	_exit(EXIT_FAILURE);
 }
 
-void ExternalCmdBackgProcess(CmdReqPtr cr) {
+void ExternalCmdBackgProcess(pid_t PID, CmdReqPtr cr) {
+	forkHandler(cr, ExternalCmdBackgMonitor, ExternalCmdProcess);
+}
 
+void ExternalCmdBackgMonitor(pid_t PID, CmdReqPtr cr) {
+	printf("[+ %d]\n", PID);
+	waitpid(PID, NULL, 0);
+	printf("[- %d]\n", PID);
 }
 
 // COMMAND ROUTER
 
 void cmd_router(CmdReqPtr command_request) {
-	
-	cmd_debug(command_request);
 	
 	switch (command_request->type) {
 		case EXTERNAL:

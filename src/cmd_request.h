@@ -3,6 +3,7 @@
 
 #include <stddef.h>
 #include <stdbool.h>
+#include <sys/types.h>
 #include "libs/list/liblist.h"
 
 
@@ -24,7 +25,7 @@ typedef struct cmd_request {
 } CmdReq;
 typedef CmdReq* CmdReqPtr;
 
-typedef void (*fctCmdReq)(CmdReqPtr cr);
+typedef void (*fctCmdReq)(pid_t PID, CmdReqPtr cr);
 
 #define ERROR_CMDREQ_UNDEFINED_TYPE "ERROR: Command request type is not recognized (%d)\n"
 

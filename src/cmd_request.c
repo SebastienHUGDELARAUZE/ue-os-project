@@ -70,18 +70,15 @@ bool isValid(CmdReqPtr cr) {
 }
 
 void cmd_debug(CmdReqPtr cr) {
-	printf("#-------------------------#\n");
-	printf("| CMD DEBUG\n");
-	printf("| >Type=%d\n", cr->type);
-	printf("| >Count=%ld\n", cr->argc);
+	printf("\n\t| >Type=%d\n", cr->type);
+	printf(  "\t| >Count=%ld\n", cr->argc);
 	for (size_t arg_index = 0; arg_index < cr->argc; arg_index++) {
-		printf("| >Argv[%ld]=%s\n", arg_index, cr->argv[arg_index] ? cr->argv[arg_index] : "NULL");
+		printf("\t|  >Argv[%ld]=%s\n", arg_index, cr->argv[arg_index] ? cr->argv[arg_index] : "NULL");
 	}
-	printf("| >Flag REDIRECTION=%s\n", cr->flag_redir ? "YES" : "NO");
-	printf("| >Flag OVERWRITE=%s\n", cr->flag_overw ? "YES" : "NO");
-	printf("| >STDOUT FILE=%s\n", cr->file_output ? cr->file_output : "NULL");
-	printf("| >Flag BACKGROUND=%s\n", cr->flag_backg ? "YES" : "NO");
-	printf("| >Check=%s\n", isValid(cr) ? "OK" : "KO");
-	printf("#-------------------------#\n");
+	printf(  "\t| >Flag REDIRECTION=%s\n", cr->flag_redir ? "YES" : "NO");
+	printf(  "\t| >Flag OVERWRITE=%s\n", cr->flag_overw ? "YES" : "NO");
+	printf(  "\t|  >STDOUT FILE=%s\n", cr->file_output ? cr->file_output : "NULL");
+	printf(  "\t| >Flag BACKGROUND=%s\n", cr->flag_backg ? "YES" : "NO");
+	printf(  "\t| >Check=%s\n", isValid(cr) ? "OK" : "KO");
 }
 
