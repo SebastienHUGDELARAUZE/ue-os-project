@@ -43,17 +43,17 @@
 
 ### FEAT-3 | EXEC-CMD
 
-- [ ] [**REQUIRED**] Execute external command (w/o args)
+- [x] [**REQUIRED**] Execute external command (w/o args)
 
       > /bin/ls
       [folder content]
 
-- [ ] [**REQUIRED**] Execute external command (w/ args)
+- [x] [**REQUIRED**] Execute external command (w/ args)
 
       > /bin/ls -al
       [folder content]
 
-- [ ] [**REQUIRED**] Execute external command (w/ args & path lookup)
+- [x] [**REQUIRED**] Execute external command (w/ args & path lookup)
 
       > ls -al
       [folder content]
