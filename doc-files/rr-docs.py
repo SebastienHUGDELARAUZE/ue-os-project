@@ -51,6 +51,7 @@ class Parser:
             rr.MultipleChoice(0, "any",
                 rr.NonTerminal("{path}"),
                 rr.NonTerminal("{arg}"),
+                rr.NonTerminal("${id}"),
             ),
             # rr.Terminal("<<EOL>>")
         ),
@@ -94,17 +95,19 @@ class Parser:
     ########################################################################
 
     cmd = rr.Group(
-        rr.Choice(1,
-            rr.NonTerminal("[variables]"),
+        rr.Choice(0,
             rr.NonTerminal("[internal_cmd]"),
             rr.NonTerminal("[external_cmd]"),
         ),
         "CMD"
     )
 
-    shell = rr.Sequence(
-        cmd,
-        handlers,
+    shell = rr.Choice(1,
+        rr.NonTerminal("[variables]"),
+        rr.Sequence(
+            cmd, 
+            handlers,
+        ),
     )
         
     ########################################################################

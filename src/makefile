@@ -18,7 +18,7 @@ build_shell: shell
 build_parser: parser.c
 build_scanner: scanner.c
 
-OBJECTS = parser.o scanner.o variable.o tools.o commands.o shell.o
+OBJECTS = parser.o scanner.o variable.o tools.o internal_cmd.o commands.o shell.o
 
 ###############################################################################
 
@@ -38,10 +38,10 @@ shell: libs/list/liblist.o ${OBJECTS}
 # OUTPUT> parser.h parser.dot parser.output
 
 clean:
-	rm shell ${OBJECTS} parser.c parser.h scanner.c
+	rm -rf shell ${OBJECTS} parser.c parser.h scanner.c
 
 clean_debug:
-	rm parser.output parser.dot
+	rm -rf parser.output parser.dot
 
 clean_libs:
 	cd libs/list/; make clean

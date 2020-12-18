@@ -1,6 +1,7 @@
 #ifndef OS_PROJECT_LIST_H
 #define OS_PROJECT_LIST_H
 
+// #define ERROR_CMPRESULT_INVALID "[ERROR] Unknown result value (=%d)"
 
 typedef struct Node {
     void *item;
@@ -16,9 +17,10 @@ typedef struct List {
 typedef List *ListPtr;
 
 typedef void *VoidPtr;
+typedef VoidPtr *VoidTablePtr;
 
 typedef bool (*fctCmp)(void*, void*);
-
+typedef void (*fctFree)(void *);
 
 
 /**
@@ -35,6 +37,8 @@ extern ListPtr newList();
  */
 extern void freeList(ListPtr list);
 
+extern void freeItemList(ListPtr list, fctFree freeItem);
+
 /**
  * @brief Add element at the end of the list
  * @details Allocate node memory, initialize it and link it to the last list' node
@@ -50,10 +54,9 @@ extern NodePtr addListNode(ListPtr list, VoidPtr item);
  * @param list List to search
  * @param isNodeCmpFct Function used to find the target node
  * @param targetItem Value used with the compare function
- * @return pointer to the node's target item, else NULL
+ * @return pointer to the target node, else NULL
  */
-extern VoidPtr getListNode(ListPtr list, fctCmp isNodeCmpFct, VoidPtr targetItem);
-
+extern NodePtr getListNode(ListPtr list, fctCmp isNodeCmpFct, VoidPtr targetItem);
 
 /**
  * @brief Apply a function to each list' node
@@ -70,7 +73,6 @@ extern VoidPtr getListNode(ListPtr list, fctCmp isNodeCmpFct, VoidPtr targetItem
  */
 // extern void deleteNodeFromList(ListPtr list, NodePtr node);
 
-
-// #define ERROR_CMPRESULT_INVALID "[ERROR] Unknown result value (=%d)"
+VoidTablePtr getItemsTable(ListPtr list);
 
 #endif /* OS_PROJECT_LIST_H */

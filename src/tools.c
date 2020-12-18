@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include <string.h>
 #include <unistd.h>
 #include "tools.h"
@@ -10,3 +11,8 @@ void stripFL(char* str) {
 char* getWD() {
 	return getcwd(NULL, 0);
 }
+
+void printPrompt() {
+	printf("%s > ", getWD());
+}
+// TODO: char* formatPath(); | return "PATH=%s", GlobalPath

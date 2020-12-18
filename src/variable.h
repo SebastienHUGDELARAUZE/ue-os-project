@@ -14,7 +14,9 @@ typedef Variable* VariablePtr;
 
 void initVariableTable();
 void freeVariableTable();
+
 void setVariable(char* name, char* value);
 char* getVariable(char* name);
+void deleteVariable(char* name);
 
 #endif /* OS_PROJECT_VAR_H */
