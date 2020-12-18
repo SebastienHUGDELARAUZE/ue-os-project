@@ -51,8 +51,8 @@ int yylex();
 
 shell: %empty
      | shell variables // FIXME: variables_assign
-     | shell cmd                                            { cmd_orchestrator($2); }
-     | shell handlers                                       { cmd_orchestrator($2); }
+     | shell cmd                                            { cmd_router($2); }
+     | shell handlers                                       { cmd_router($2); }
      | shell EOL                                            { printPrompt(); }
 ;
 

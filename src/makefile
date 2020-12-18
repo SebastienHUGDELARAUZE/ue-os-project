@@ -24,7 +24,7 @@ run: shell
 debug: shell
 	./shell -d
 
-OBJECTS = parser.o scanner.o variable.o tools.o internal_cmd.o commands.o shell.o
+OBJECTS = parser.o scanner.o variable.o tools.o internal_cmd.o cmd_request.o commands.o shell.o
 
 ###############################################################################
 

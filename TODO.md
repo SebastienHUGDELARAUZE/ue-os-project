@@ -8,3 +8,7 @@
   - Default rule
 - Check linting
 - Check memory leaks
+- BACKGROUND (&)
+  - :o: | MAIN (PARENT) -> PROMPT
+  - :x: | FORK (CHILD 1) -> waitPID(CHILD 2)
+    - :x: | FORK (CHILD 2) -> EXECVE

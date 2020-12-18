@@ -11,13 +11,62 @@
 extern char** environ;
 
 
-void executeExternalCommand(CmdReqPtr cr);
-void setupProcess(CmdReqPtr cr);
-bool isValid(CmdReqPtr cr);
+void forkHandler(CmdReqPtr cr, fctCmdReq parent, fctCmdReq child);
+void MainThread(CmdReqPtr cr);
+void ExternalCmdProcess(CmdReqPtr cr);
+void ExternalCmdBackgProcess(CmdReqPtr cr);
 
-// COMMANDS
+// EXTERNAL COMMAND FORK HANDLER
 
-void cmd_orchestrator(CmdReqPtr command_request) {
+void executeExternalCommand(CmdReqPtr cr) {
+	forkHandler(cr, MainThread, ExternalCmdProcess);
+}
+
+void setupExternalCommandProcess(CmdReqPtr cr) {
+	putenv(GlobalPath);
+	
+	if (cr->flag_redir) {
+		freopen(cr->file_output, cr->flag_overw ? "w" : "a", stdout);
+	}
+}
+
+// FORK HANDLER
+
+void forkHandler(CmdReqPtr cr, fctCmdReq parentHandler, fctCmdReq childHandler) {
+	pid_t cpid = fork();
+	if (cpid == -1) {
+		perror("Fork failed\n");
+		exit(EXIT_FAILURE);
+	}
+
+	if (cpid == 0) {  	// CHILD PROCESS
+		childHandler(cr);
+	} else {  			// PARENT PROCESS
+		parentHandler(cr);
+	}
+}
+
+void MainThread(CmdReqPtr cr) {
+	// if (!cr->flag_backg)
+	wait(NULL);
+}
+
+void ExternalCmdProcess(CmdReqPtr cr) {
+	setupExternalCommandProcess(cr);
+
+	execvp(cr->argv[0], cr->argv);
+	
+	perror("(External command failed)");
+	_exit(EXIT_FAILURE);
+}
+
+void ExternalCmdBackgProcess(CmdReqPtr cr) {
+
+}
+
+// COMMAND ROUTER
+
+void cmd_router(CmdReqPtr command_request) {
 	
 	cmd_debug(command_request);
 	
@@ -50,114 +99,4 @@ void cmd_orchestrator(CmdReqPtr command_request) {
 			fprintf(stderr, ERROR_CMDREQ_UNDEFINED_TYPE, command_request->type);
 			break;
 	}
-}
-
-void cmd_debug(CmdReqPtr cr) {
-	printf("#-------------------------#\n");
-	printf("| CMD DEBUG\n");
-	printf("| >Type=%d\n", cr->type);
-	printf("| >Count=%ld\n", cr->argc);
-	for (size_t arg_index = 0; arg_index < cr->argc; arg_index++) {
-		printf("| >Argv[%ld]=%s\n", arg_index, cr->argv[arg_index] ? cr->argv[arg_index] : "NULL");
-	}
-	printf("| >Flag REDIRECTION=%s\n", cr->flag_redir ? "YES" : "NO");
-	printf("| >Flag OVERWRITE=%s\n", cr->flag_overw ? "YES" : "NO");
-	printf("| >STDOUT FILE=%s\n", cr->file_output ? cr->file_output : "NULL");
-	printf("| >Flag BACKGROUND=%s\n", cr->flag_backg ? "YES" : "NO");
-	printf("| >Check=%s\n", isValid(cr) ? "OK" : "KO");
-	printf("#-------------------------#\n");
-}
-
-void executeExternalCommand(CmdReqPtr cr) {
-	pid_t cpid = fork();
-	if (cpid == -1) {
-		perror("Fork failed\n");
-		exit(EXIT_FAILURE);
-	}
-
-	if (cpid == 0) {  	// CHILD PROCESS
-		char* nenv[] = { GlobalPath, NULL };
-		environ = nenv;
-		setupProcess(cr);
-		execvp(cr->argv[0], cr->argv);
-		perror("(External command failed)");
-		_exit(EXIT_FAILURE);
-	} else  {  			// PARENT PROCESS
-		wait(NULL);
-	}
-}
-
-void setupProcess(CmdReqPtr cr) {
-	if (cr->flag_redir) {
-		freopen(cr->file_output, cr->flag_overw ? "w" : "a", stdout);
-	}
-}
-
-// COMMANDS REQUESTS
-
-CmdReqPtr newInternalCmdReq(CmdType type) {
-	CmdReqPtr cr = malloc(sizeof(CmdReq));
-	
-	cr->type = type;
-	cr->argc = 0;
-	cr->argv = NULL;
-
-	cr->flag_redir = false;
-	cr->flag_overw = false;
-	cr->file_output = NULL;
-
-	cr->flag_backg = false;
-
-	return cr;
-}
-
-CmdReqPtr newInternalCmdReqWithArg(CmdType type, char* arg) {
-	CmdReqPtr cr = newInternalCmdReq(type);
-	
-	cr->argc = 1;
-	cr->argv = calloc(sizeof(char*), cr->argc);
-	cr->argv[0] = arg;
-
-	return cr;
-}
-
-CmdReqPtr newExternalCmdReq(CmdType type, char* command, ListPtr args) {
-	CmdReqPtr cr = newInternalCmdReq(type);
-	
-	addListNode(args, NULL);
-
-	cr->type = type;
-	cr->argc = args->count;
-	cr->argv = (char**) getItemsTable(args);
-	cr->argv[0] = command;
-
-	return cr;
-}
-
-void freeCmdReq(CmdReqPtr cr) {
-	free(cr->argv);
-	free(cr);
-}
-
-void addArgumentToCmdReq(CmdReqPtr cr, char* arg) {
-	cr->argv[cr->argc++] = arg;
-	cr->argv = realloc(cr->argv, cr->argc);
-	cr->argv[cr->argc] = NULL;
-}
-
-void setRedirectionToCmdReq(CmdReqPtr cr, char* file_output, bool overwrite) {
-	cr->flag_redir = true;
-	cr->flag_overw = overwrite;
-	cr->file_output = file_output;
-}
-
-void setBackgroundToCmdReq(CmdReqPtr cr) {
-	cr->flag_backg = true;
-}
-
-bool isValid(CmdReqPtr cr) {
-	if (cr->type == EXTERNAL)
-		return (cr->argv[cr->argc-1] == NULL);
-	else
-		return true;
 }
