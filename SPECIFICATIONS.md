@@ -85,8 +85,8 @@
 ### TOKEN: **{path}**
 
 - name: `PATH`
-- RegEx: `[[:alnum:]_/.]+`  
-![PATH RegEx: [a-zA-Z0-9_\/.]+](doc-files/img/regex-PATH.svg)
+- RegEx: `[[:alnum:]_/.\-\*\+]+`  
+![PATH RegEx: [a-zA-Z0-9_/.\-\*\+]+](doc-files/img/regex-PATH.svg)
 
 ### TOKEN: **{command}**
 

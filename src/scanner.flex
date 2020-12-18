@@ -29,7 +29,7 @@ cmd_delpath     delpath
 
 var_start       [[:alpha:]_]
 letter          [[:alnum:]_]
-multi_word      [[:alnum:][:blank:]/_]+
+multi_word      [[:alnum:][:blank:]/_\.]+
 
 id              {var_start}{letter}*
 word            {letter}+ 

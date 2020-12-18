@@ -5,8 +5,11 @@
 #include "internal_cmd.h"
 
 
-char GlobalPath[BUFFER_SIZE] = "PATH=\0";
+char GlobalPath[BUFFER_SIZE];
 
+void initPath() {
+	strcpy(GlobalPath, "PATH=\0");
+}
 
 void echo(char *text) {
 	if (text != NULL)
@@ -28,5 +31,5 @@ void addPath(char *path) {
 }
 
 void deletePath() {
-	GlobalPath[0]='\0';
+	initPath();
 }
