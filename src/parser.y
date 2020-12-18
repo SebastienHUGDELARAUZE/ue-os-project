@@ -9,7 +9,7 @@ int yylex();
 
 %verbose
 %define parse.trace
-%define parse.error detailed
+%define parse.error verbose
 
 %code requires {
     #include "tools.h"
