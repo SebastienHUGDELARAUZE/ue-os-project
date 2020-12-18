@@ -3,6 +3,7 @@
 .vscode/
 .helper/
 
+src/libs/criterion/
 __pycache__/
 src-test/
 venv/

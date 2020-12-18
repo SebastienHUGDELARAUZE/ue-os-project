@@ -28,7 +28,10 @@ ${VENV_NAME}/bin/activate: test/requirements.txt
 .PHONY: shell
 
 shell:
-	(cd src/; make build_shell clean)
+	(cd src/; make build_shell)
+
+install: shell
+	(cp ./src/shell .)
 
 run_shell: install
 	(./shell)
@@ -38,9 +41,6 @@ scanner:
 
 parser:
 	(cd src/; make build_parser clean)
-
-install: shell
-	(cp ./src/shell .)
 
 ###### DOCS DIR
 

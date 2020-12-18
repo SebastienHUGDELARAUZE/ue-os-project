@@ -1,4 +1,5 @@
 %{
+#include <string.h>
 #include "shell.h"
 
 int yylex();
@@ -10,8 +11,18 @@ int yylex();
 %define parse.trace
 %define parse.error detailed
 
+%code requires {
+    #include "tools.h"
+    #include "commands.h"
+    #include "variable.h"
+    #include "internal_cmd.h"
+    #include "libs/list/liblist.h"
+}
+
 %union {
-  char* str;
+  char*         str;
+  CmdReqPtr     cmd_req;
+  ListPtr       list;
 }
 
 
@@ -19,16 +30,18 @@ int yylex();
 %token ACCESS ASSIGN BLANK EOL
 %token <str> ARG PATH WORD STRING COMMAND
 %token REDIR_OVER REDIR_APP REDIR_CMD BACKG
-%token CMD_ECHO CMD_PWD CMD_SHOWPATH CMD_ADDPATH CMD_DELPATH
+%token CMD_EXIT CMD_ECHO CMD_PWD CMD_SHOWPATH CMD_ADDPATH CMD_DELPATH
 
-/* %type <str> cmd  */
-/* %type <str> internal_cmd */
-/* %type <str> external_cmd external_cmd_arg */
-%type <str> variables_access
+%type <str> variable_access
+%type <cmd_req> cmd cmd_internal cmd_external handlers
+%type <list> external_cmd_arg
 
 %printer { fprintf(yyoutput, "%s", $$); } <str>
+%printer { cmd_debug($$); } <cmd_req>
 
-%destructor { free($$); } <str>
+%destructor { free($$); }           <str>
+%destructor { freeCmdReq($$); }     <cmd_req>
+%destructor { freeList($$); }       <list>
 
 %code provides {
     void yyerror(const char* msg);
@@ -37,49 +50,51 @@ int yylex();
 %%
 
 shell: %empty
-     | shell variables
-     | shell cmd
-     | shell handlers
+     | shell variables // FIXME: variables_assign
+     | shell cmd                                            { cmd_router($2); }
+     | shell handlers                                       { cmd_router($2); }
      | shell EOL                                            { printPrompt(); }
 ;
 
-handlers: cmd REDIR_APP PATH                                { /* printf("[WIP-REDIR A: %s]", $3); */ }
-        | cmd REDIR_OVER PATH                               { /* printf("[WIP-REDIR O: %s]", $3); */ }
-        | cmd REDIR_CMD cmd                                 { /* printf("[WIP-%s PIPE to %s]", $1, $3); */ }
-        | cmd BACKG                                         { /* printf("[WIP-BACKGROUND: %s]", $1); */ }
+handlers: cmd REDIR_APP PATH                                { setRedirectionToCmdReq($1, $3, false); $$ = $1; }
+        | cmd REDIR_OVER PATH                               { setRedirectionToCmdReq($1, $3, true);  $$ = $1; }
+        | cmd REDIR_CMD cmd                                 { printf("[WIP] PIPE"); }
+        | cmd BACKG                                         { setBackgroundToCmdReq($1);             $$ = $1; }
 ;
 
-cmd: internal_cmd
-   | external_cmd
+cmd: cmd_internal
+   | cmd_external
 ;
 
-variables: variables_assign
-         | variables_access
+variables: variable_assign
+         | variable_access
 ;
 
-variables_assign: VAR ASSIGN WORD                           { setVariable($1, $3); }
-                | VAR ASSIGN STRING                         { setVariable($1, $3); }
+variable_assign: VAR ASSIGN                                 { deleteVariable($1); }
+               | VAR ASSIGN WORD                            { setVariable($1, $3); }
+               | VAR ASSIGN STRING                          { setVariable($1, $3); }
 ;
 
-variables_access: ACCESS VAR                                { $$ = getVariable($2); }
+variable_access: ACCESS VAR                                 { $$ = getVariable($2); }
 ;
 
-internal_cmd: CMD_ECHO PATH                                 { echo($2); }
-            | CMD_ECHO STRING                               { echo($2); }
-            | CMD_ECHO variables_access                     { echo($2); }
-            | CMD_PWD                                       { printWD(); }
-            | CMD_SHOWPATH                                  { printPath(); }
-            | CMD_ADDPATH PATH                              { addPath($2); }
-            | CMD_DELPATH                                   { deletePath(); }
+cmd_internal: CMD_EXIT                                      { printf("[Shell terminated by user]\n"); YYACCEPT; }
+            | CMD_ECHO PATH                                 { $$ = newInternalCmdReqWithArg(ECHO, $2); }
+            | CMD_ECHO STRING                               { $$ = newInternalCmdReqWithArg(ECHO, $2); }
+            | CMD_ECHO variable_access                      { $$ = newInternalCmdReqWithArg(ECHO, $2); }
+            | CMD_PWD                                       { $$ = newInternalCmdReq(PWD); }
+            | CMD_SHOWPATH                                  { $$ = newInternalCmdReq(SHOW_PATH); }
+            | CMD_ADDPATH PATH                              { $$ = newInternalCmdReqWithArg(ADD_PATH, $2); }
+            | CMD_DELPATH                                   { $$ = newInternalCmdReq(DELETE_PATH); }
 ;
 
-external_cmd: PATH external_cmd_arg                         { printf("[WIP-EXTCMD: %s]", $1); }
+cmd_external: PATH external_cmd_arg                         { $$ = newExternalCmdReq(EXTERNAL, $1, $2); }
 ;
 
-external_cmd_arg: %empty                                    { printf("[WIP-EXTCMD-ARG Init]"); }
-                | external_cmd_arg ARG                      { printf("[WIP-EXTCMD-ARG A: %s]", $2); }
-                | external_cmd_arg PATH                     { printf("[WIP-EXTCMD-ARG P: %s]", $2); }
-                | external_cmd_arg variables_access         { printf("[WIP-EXTCMD-ARG V]"); }
+external_cmd_arg: %empty                                    { $$ = newList(); addListNode($$, NULL); }
+                | external_cmd_arg ARG                      { addListNode($1, $2); $$ = $1; }
+                | external_cmd_arg PATH                     { addListNode($1, $2); $$ = $1; }
+                | external_cmd_arg variable_access          { addListNode($1, $2); $$ = $1; }
 ;
 
 %%

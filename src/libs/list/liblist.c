@@ -1,10 +1,14 @@
-#include "list.h"
+#include <stdio.h>
+#include <stdbool.h>
+#include <stdlib.h>
+#include <stddef.h>
+#include "liblist.h"
 
 // region PRIVATE DECLARATION
 void permuteNodeValue(NodePtr currentNode);
 
 typedef NodePtr *NodesPtr;
-NodesPtr getNodesPtr(ListPtr);
+NodesPtr getNodesTable(ListPtr list);
 // endregion
 
 // region PUBLIC METHODS
@@ -18,10 +22,22 @@ ListPtr newList() {
 }
 
 void freeList(ListPtr list) {
-    NodePtr *nodes = getNodesPtr(list);
-    for (int node_index = 0; node_index < list->count; ++node_index)
+    NodePtr *nodes = getNodesTable(list);
+
+    for (int node_index = 0; node_index < list->count; ++node_index) {
         free(nodes[node_index]);
+    }
     free(list);
+    free(nodes);
+}
+
+void freeItemList(ListPtr list, fctFree freeItem) {
+    VoidTablePtr items = getItemsTable(list);
+    
+    for (int node_index = 0; node_index < list->count; ++node_index) {
+        freeItem(items[node_index]);
+    }
+    free(items);
 }
 
 NodePtr addListNode(ListPtr list, VoidPtr item) {
@@ -40,12 +56,34 @@ NodePtr addListNode(ListPtr list, VoidPtr item) {
     return node;
 }
 
-void applyFunctionToList(ListPtr list, fctPtr function) {
+NodePtr getListNode(ListPtr list, fctCmp isNodeCmpFct, VoidPtr targetItem) {
+    NodePtr nodeLookup = list->first;
 
+    while (nodeLookup) {
+        if (isNodeCmpFct(nodeLookup->item, targetItem)) return nodeLookup;
+        nodeLookup = nodeLookup->next;
+    }
+    return NULL;
 }
+
+// void applyFunctionToList(ListPtr list, fctPtr function) {
+
+// }
 
 void deleteNodeFromList(ListPtr list, NodePtr node) {
 
+}
+
+VoidTablePtr getItemsTable(ListPtr list) {
+    VoidTablePtr items = calloc(sizeof(VoidPtr), list->count);
+
+    NodePtr currentNode = list->first;
+    for (int node_index = 0; currentNode; ++node_index) {
+        items[node_index] = currentNode->item;
+        currentNode = currentNode->next;
+    }
+
+    return items;
 }
 // endregion
 
@@ -60,8 +98,8 @@ void permuteNodeValue(NodePtr currentNode) {
     nextNode->item = currentNodeValue;
 }
 
-NodePtr *getNodesPtr(ListPtr list) {
-    NodePtr *nodes = malloc(sizeof(NodePtr) * list->count);
+NodePtr *getNodesTable(ListPtr list) {
+    NodePtr *nodes = calloc(sizeof(NodePtr), list->count);
 
     NodePtr currentNode = list->first;
     for (int node_index = 0; currentNode; ++node_index) {

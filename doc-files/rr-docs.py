@@ -18,7 +18,7 @@ class Parser:
         rr.Choice(1,
             rr.NonTerminal("{path}"),
             rr.NonTerminal("{string}"),
-            rr.Comment("{command}")
+            rr.NonTerminal("[variable_access]")
         )
     )
 
@@ -51,6 +51,7 @@ class Parser:
             rr.MultipleChoice(0, "any",
                 rr.NonTerminal("{path}"),
                 rr.NonTerminal("{arg}"),
+                rr.NonTerminal("[variable_access]"),
             ),
             # rr.Terminal("<<EOL>>")
         ),
@@ -59,24 +60,28 @@ class Parser:
 
     ########################################################################
 
-    variables = rr.Group(
-        rr.Choice(0,
+    variables = rr.Choice(0,
+        rr.Group(
             rr.Sequence(
                 rr.NonTerminal("{id}"),
                 rr.Terminal("="),
-                rr.Choice(0,
+                rr.Choice(1,
+                    rr.Skip(),
                     rr.NonTerminal("{word}"),
                     rr.NonTerminal("{string}"),
                 )
             ),
+            "variable_assign"
+        ),
+        rr.Group(
             rr.Sequence(
                 "$",
                 rr.NonTerminal("{id}"),
-            )
-        ),
-        "variables"
+            ),
+            "variable_access"
+        )
     )
-
+    
     ########################################################################
 
     handlers = rr.Group(
@@ -94,17 +99,19 @@ class Parser:
     ########################################################################
 
     cmd = rr.Group(
-        rr.Choice(1,
-            rr.NonTerminal("[variables]"),
+        rr.Choice(0,
             rr.NonTerminal("[internal_cmd]"),
             rr.NonTerminal("[external_cmd]"),
         ),
         "CMD"
     )
 
-    shell = rr.Sequence(
-        cmd,
-        handlers,
+    shell = rr.Choice(1,
+        rr.NonTerminal("[variables]"),
+        rr.Sequence(
+            cmd, 
+            handlers,
+        ),
     )
         
     ########################################################################

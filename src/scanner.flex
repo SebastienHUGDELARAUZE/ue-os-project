@@ -20,6 +20,7 @@ redir_cmd       "|"
 backg           "&"
 eol             \n
 
+cmd_exit        exit
 cmd_echo        echo
 cmd_pwd         pwd
 cmd_showpath    showpath
@@ -35,7 +36,7 @@ word            {letter}+
 string          \"{multi_word}\"
 command         \`{multi_word}\`
 
-path            [[:alnum:]_/.]+
+path            [[:alnum:]_/.\-\*\+]+
 arg             -[[:alpha:]]+
 
 blank           [[:blank:]]
@@ -57,6 +58,7 @@ blank           [[:blank:]]
 {redir_cmd}                         { return(REDIR_CMD); }
 {backg}                             { return(BACKG); }
 
+{cmd_exit}                          { return(CMD_EXIT); }
 {cmd_echo}                          { return(CMD_ECHO); }
 {cmd_pwd}                           { return(CMD_PWD); }
 {cmd_showpath}                      { return(CMD_SHOWPATH); }

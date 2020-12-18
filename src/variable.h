@@ -3,15 +3,20 @@
 
 #include <stdbool.h>
 
+#define ERROR_VAR_UNKNOWN "[ERROR] Unknown variable: %s\n"
+
 typedef struct variable {
     char* name;
     char* value;
 } Variable;
 typedef Variable* VariablePtr;
 
-VariablePtr initVariable(char* name, char* value);
-bool isVariable(VariablePtr var, char* name);
 
-#define ERROR_VAR_UNKNOWN "[ERROR] Unknown variable: %s\n"
+void initVariableTable();
+void freeVariableTable();
+
+void setVariable(char* name, char* value);
+char* getVariable(char* name);
+void deleteVariable(char* name);
 
 #endif /* OS_PROJECT_VAR_H */

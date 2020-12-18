@@ -1,19 +1,12 @@
 #ifndef OS_PROJECT_LIST_H
 #define OS_PROJECT_LIST_H
 
-#include <stdio.h>
-#include <stdbool.h>
-#include <stdlib.h>
-#include <stddef.h>
-
-
-// region TYPE DEFINITION
+// #define ERROR_CMPRESULT_INVALID "[ERROR] Unknown result value (=%d)"
 
 typedef struct Node {
     void *item;
     struct Node *next ;
 } Node;
-
 typedef Node *NodePtr;
 
 typedef struct List {
@@ -21,34 +14,30 @@ typedef struct List {
     struct Node *first;
     struct Node *last;
 } List;
-
 typedef List *ListPtr;
 
 typedef void *VoidPtr;
+typedef VoidPtr *VoidTablePtr;
 
-typedef void (*fctPtr)(void *);
+typedef bool (*fctCmp)(void*, void*);
+typedef void (*fctFree)(void *);
 
-typedef enum {LESSER = -1, EQUAL = 0, GREATER = 1} cmpResult;
-
-typedef cmpResult (*fctCmp)(void *, void*);
-
-// endregion
-
-// region METHOD DEFINITION
 
 /**
  * @brief Create new list
  * @details Allocate memory and initialize the list
  * @return pointer to this allocated memory space
  */
-ListPtr newList();
+extern ListPtr newList();
 
 /**
  * @brief Destroy a list
  * @details Deallocate list' memory
  * @param list Object to freed
  */
-void freeList(ListPtr list);
+extern void freeList(ListPtr list);
+
+extern void freeItemList(ListPtr list, fctFree freeItem);
 
 /**
  * @brief Add element at the end of the list
@@ -57,14 +46,24 @@ void freeList(ListPtr list);
  * @param item Element to append
  * @return pointer to the newly created node
  */
-NodePtr addListNode(ListPtr list, VoidPtr item);
+extern NodePtr addListNode(ListPtr list, VoidPtr item);
+
+/**
+ * @brief Search for a target item in the list
+ * @details Iterate through list, using for each node the comparaison function
+ * @param list List to search
+ * @param isNodeCmpFct Function used to find the target node
+ * @param targetItem Value used with the compare function
+ * @return pointer to the target node, else NULL
+ */
+extern NodePtr getListNode(ListPtr list, fctCmp isNodeCmpFct, VoidPtr targetItem);
 
 /**
  * @brief Apply a function to each list' node
  * @param list List to modify
  * @param function Function to apply
  */
-// void applyFunctionToList(ListPtr list, fctPtr function);
+// extern void applyFunctionToList(ListPtr list, fctPtr function);
 
 /**
  * @brief Delete a List' node
@@ -72,14 +71,8 @@ NodePtr addListNode(ListPtr list, VoidPtr item);
  * @param list List to modify
  * @param node Node to delete
  */
-// void deleteNodeFromList(ListPtr list, NodePtr node);
+// extern void deleteNodeFromList(ListPtr list, NodePtr node);
 
-// endregion
-
-// region ERROR DEFINITION
-
-#define ERROR_CMPRESULT_INVALID "[ERROR] Unknown result value (=%d)"
-
-// endregion
+VoidTablePtr getItemsTable(ListPtr list);
 
 #endif /* OS_PROJECT_LIST_H */
