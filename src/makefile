@@ -4,7 +4,7 @@ LFLAGS	= # -d
 
 # Parser Compilation (Enable color | .dot | .output which report lookhead / conflict solution / counter-examples)
 YACC 	= bison
-YFLAGS	= --color --graph --report=all
+YFLAGS	= --graph --report=all # --color 
 
 # C Compilation (Enable all warnings | Debug output | Use gnu99 Standard)
 CC 		= gcc
