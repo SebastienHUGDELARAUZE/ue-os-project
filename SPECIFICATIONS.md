@@ -21,7 +21,7 @@
     - :o: | **-SEARCH-1**: determined by absolute path
     - :o: | **-SEARCH-2**: determined by internal variable path research
     - :o: | **-ERROR**: return **error** message for unavailable command
-- **FEAT-3**: Command handlers
+- **FEAT-3**: Command handlers :wavy_dash:
   - :o: | **-REDIR-1**: `>` : redirect output to file (overwrite)
   - :o: | **-REDIR-2**: `>>` : redirect output to file (append)
   - :x: | **-REDIR-3**: `|` : redirect left command output to right input command
@@ -50,6 +50,7 @@
 
 ### COMMAND TOKENS
 
+- `CMD_EXIT` - RegEx: `exit`
 - `CMD_ECHO` - RegEx: `echo`
 - `CMD_PWD` - RegEx: `pwd`
 - `CMD_SHOWPATH` - RegEx: `showpath`

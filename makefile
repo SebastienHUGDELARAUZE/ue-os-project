@@ -38,7 +38,7 @@ run_shell: install
 
 ###### DOCS DIR
 
-build_docs: prepare_venv_dev
+docs: prepare_venv_dev
 	(cd doc-files/; make VENV_NAME=${VENV_NAME})
 
 ###### TEST DIR

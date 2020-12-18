@@ -13,6 +13,8 @@ def main():
 ########################################################################
 
 class Parser:
+    exit_cmd = rr.Terminal("exit")
+ 
     echo_cmd = rr.Sequence(
         "echo",
         rr.Choice(1,
@@ -40,6 +42,7 @@ class Parser:
             showpath_cmd,
             addpath_cmd,
             delpath_cmd,
+            exit_cmd,
         ),
         "internal_cmd"
     )
