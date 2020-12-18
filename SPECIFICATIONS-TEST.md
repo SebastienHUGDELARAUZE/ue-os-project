@@ -6,7 +6,9 @@
 
 ![usecase main](doc-files/img/usecase_main.png)
 
-- [ ] Case: End result
+- [x] Case: End result
+
+> Except for pipe, everything passes
 
       > delpath
       > addpath /bin
@@ -19,6 +21,7 @@
       > ls -al > resultat.txt
       > ls -al | grep fichier
       [mon fichier.txt & fichier2.txt]
+
 
 ## Test case
 
@@ -60,26 +63,26 @@
 
 ### FEAT-4 | REDIR
 
-- [ ] [**REQUIRED**] Redirect to file (overwrite)
+- [x] [**REQUIRED**] Redirect to file (overwrite)
 
       > ls -al > fichier.txt
       > cat fichier.txt
       [folder content]
 
-- [ ] [**REQUIRED**] Redirect to file (append)
+- [x] [**REQUIRED**] Redirect to file (append)
 
       > ls -al >> fichier.txt
       > cat fichier.txt
       [folder content]
 
-- [ ] [**REQUIRED**] Redirect to file (append)
+- [ ] [**REQUIRED**] Redirect to other command
 
       > ls -al | grep e
       [folder content filtered by letter 'e']
 
 ### FEAT-5 | BACKG
 
-- [ ] [**REQUIRED**] Execute a command in background
+- [x] [**REQUIRED**] Execute a command in background
 
       > ls &
       [PID]

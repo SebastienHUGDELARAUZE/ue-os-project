@@ -1,0 +1,19 @@
+addpath /bin
+
+echo "................................"
+
+ls -al > fichier.txt
+cat fichier.txt
+
+echo "................................"
+
+ls -al >> fichier.txt
+cat fichier.txt
+
+echo "................................"
+
+ls -al | grep e
+
+echo "................................"
+
+ls &
