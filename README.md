@@ -8,14 +8,14 @@
 
 ## Usages
 
-- To build the project, you can use the makefile task `build`:
+- To build the project, you can use the makefile task `shell`:
 
-      $ make build
+      $ make shell
       gcc ...
 
-  > Will produce an executable called `main`
+  > Will produce an executable called `shell`
 
-- To clean the project afterward, use the task `clean`:
+- To clean the project afterward, use the task `clean` or `realclean`:
 
       $ make clean
       rm ...
@@ -69,7 +69,6 @@ Regular expression:
 Tutorials:
 
 - [SO: Check semantic value](https://stackoverflow.com/questions/52136092/how-to-check-semantic-values-of-tokens-in-flex-bison)
-
 - [1. Flexible Bison: Compiler Theory - DONE](https://starbeamrainbowlabs.com/blog/article.php?article=posts/258-Languages-and-Compilers-Intro.html)
 - [2. Compilers 101: Build your own flex + bison compiler in a few easy(?) steps](https://starbeamrainbowlabs.com/blog/article.php?article=posts%2F267-Compilers-101.html)
 - [3. Introducing Flex and Bison](https://www.oreilly.com/library/view/flex-bison/9780596805418/ch01.html)

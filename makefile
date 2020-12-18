@@ -36,12 +36,6 @@ install: shell
 run_shell: install
 	(./shell)
 
-scanner:
-	(cd src/; make build_scanner clean)
-
-parser:
-	(cd src/; make build_parser clean)
-
 ###### DOCS DIR
 
 build_docs: prepare_venv_dev
