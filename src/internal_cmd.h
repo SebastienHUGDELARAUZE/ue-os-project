@@ -4,6 +4,8 @@
 #define BUFFER_SIZE 2048
 extern char GlobalPath[BUFFER_SIZE];
 
+void initPath();
+
 void echo(char*);
 void printWD();
 void printPath();

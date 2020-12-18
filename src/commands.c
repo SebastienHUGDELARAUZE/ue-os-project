@@ -69,6 +69,7 @@ void ExternalCmdBackgMonitor(pid_t PID, CmdReqPtr cr) {
 	printf("[+ %d]\n", PID);
 	waitpid(PID, NULL, 0);
 	printf("[- %d]\n", PID);
+	_exit(EXIT_SUCCESS);
 }
 
 // COMMAND ROUTER

@@ -1,3 +1,4 @@
+#include <unistd.h>
 #include <stdio.h>
 #include "shell.h"
 #include "tools.h"
@@ -6,7 +7,8 @@
 
 void initShell() {
     initVariableTable();
-	addPath("/bin");
+	initPath();
+	istty = isatty(STDIN_FILENO);
 	printPrompt();
 }
 
