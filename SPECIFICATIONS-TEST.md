@@ -2,7 +2,7 @@
 
 ## Use case
 
-- [ ] Case: Command with/without arguments
+- [x] Case: Command with/without arguments
 
 ![usecase main](doc-files/img/usecase_main.png)
 
@@ -12,7 +12,7 @@
       > addpath /bin
       > addpath /usr/local/bin
       > showpath
-      /bin:/usr/local/bin
+      PATH=/bin:/usr/local/bin
       > fichier="mon fichier.txt"
       > touch $fichier fichier2.txt
       > ls -al $fichier
@@ -24,18 +24,18 @@
 
 ### FEAT-1 | VAR
 
-- [ ] [**REQUIRED**] Assign and access word value
+- [x] [**REQUIRED**] Assign and access word value
 
       > var=IMT  
       > echo $var  
       IMT
 
-- [ ] [**REQUIRED**] Failed to assign string value
+- [x] [**REQUIRED**] Failed to assign string value
 
       > var=IMT Atlantique
       Atlantique: command not found
 
-- [ ] [**REQUIRED**] Assign and access string value
+- [x] [**REQUIRED**] Assign and access string value
 
       > var="IMT Atlantique"
       > echo $var

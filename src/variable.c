@@ -37,8 +37,17 @@ void freeVariable(VariablePtr var) {
 }
 
 void setVariable(char* name, char* value) {
-	VariablePtr new_var = newVariable(name, value);
-	addListNode(var_list, new_var);
+	NodePtr requestedVarNode = getListNode(var_list, (fctCmp) isVariable, name);
+	
+	if (requestedVarNode) {  // Found a var node matching
+		VariablePtr requestedVar = (VariablePtr) requestedVarNode->item;
+		free(requestedVar->value);
+		requestedVar->value = strdup(value);
+	} else {  // Need to create a new one
+		VariablePtr new_var = newVariable(name, value);
+		addListNode(var_list, new_var);
+	}
+	
 }
 
 char* getVariable(char* name) {
