@@ -33,7 +33,7 @@ int yylex();
 %token CMD_ECHO CMD_PWD CMD_SHOWPATH CMD_ADDPATH CMD_DELPATH
 
 %type <str> variable_access
-%type <cmd_req> cmd cmd_internal cmd_external
+%type <cmd_req> cmd cmd_internal cmd_external handlers
 %type <list> external_cmd_arg
 
 %printer { fprintf(yyoutput, "%s", $$); } <str>
@@ -52,14 +52,14 @@ int yylex();
 shell: %empty
      | shell variables // FIXME: variables_assign
      | shell cmd                                            { cmd_orchestrator($2); }
-     | shell handlers
+     | shell handlers                                       { cmd_orchestrator($2); }
      | shell EOL                                            { printPrompt(); }
 ;
 
-handlers: cmd REDIR_APP PATH                                { /* printf("[WIP-REDIR A: %s]", $3); */ }
-        | cmd REDIR_OVER PATH                               { /* printf("[WIP-REDIR O: %s]", $3); */ }
-        | cmd REDIR_CMD cmd                                 { /* printf("[WIP-%s PIPE to %s]", $1, $3); */ }
-        | cmd BACKG                                         { /* printf("[WIP-BACKGROUND: %s]", $1); */ }
+handlers: cmd REDIR_APP PATH                                { setRedirectionToCmdReq($1, $3, false); $$ = $1; }
+        | cmd REDIR_OVER PATH                               { setRedirectionToCmdReq($1, $3, true);  $$ = $1; }
+        | cmd REDIR_CMD cmd                                 { printf("[WIP] PIPE"); }
+        | cmd BACKG                                         { setBackgroundToCmdReq($1);             $$ = $1; }
 ;
 
 cmd: cmd_internal
@@ -80,20 +80,20 @@ variable_access: ACCESS VAR                                 { $$ = getVariable($
 
 cmd_internal: CMD_ECHO PATH                                 { $$ = newInternalCmdReqWithArg(ECHO, $2); }
             | CMD_ECHO STRING                               { $$ = newInternalCmdReqWithArg(ECHO, $2); }
-            | CMD_ECHO variable_access                      { printf("ECHO v: %s", $2); $$ = newInternalCmdReqWithArg(ECHO, $2); }
+            | CMD_ECHO variable_access                      { $$ = newInternalCmdReqWithArg(ECHO, $2); }
             | CMD_PWD                                       { $$ = newInternalCmdReq(PWD); }
             | CMD_SHOWPATH                                  { $$ = newInternalCmdReq(SHOW_PATH); }
             | CMD_ADDPATH PATH                              { $$ = newInternalCmdReqWithArg(ADD_PATH, $2); }
             | CMD_DELPATH                                   { $$ = newInternalCmdReq(DELETE_PATH); }
 ;
 
-cmd_external: PATH external_cmd_arg                         { $$ = newExternalCmdReq(EXTERNAL, $1, $2); printf("[WIP-EXTCMD: %s (%d)]\n", $1, $2->count); }
+cmd_external: PATH external_cmd_arg                         { $$ = newExternalCmdReq(EXTERNAL, $1, $2); }
 ;
 
-external_cmd_arg: %empty                                    { $$ = newList(); addListNode($$, NULL); printf("[WIP-EXTCMD-ARG Init]"); }
-                | external_cmd_arg ARG                      { addListNode($1, $2); $$ = $1; printf("[WIP-EXTCMD-ARG A: %s]", $2); }
-                | external_cmd_arg PATH                     { addListNode($1, $2); $$ = $1; printf("[WIP-EXTCMD-ARG P: %s]", $2); }
-                | external_cmd_arg variable_access          { addListNode($1, $2); $$ = $1; printf("[WIP-EXTCMD-ARG V]"); }
+external_cmd_arg: %empty                                    { $$ = newList(); addListNode($$, NULL); }
+                | external_cmd_arg ARG                      { addListNode($1, $2); $$ = $1; }
+                | external_cmd_arg PATH                     { addListNode($1, $2); $$ = $1; }
+                | external_cmd_arg variable_access          { addListNode($1, $2); $$ = $1; }
 ;
 
 %%

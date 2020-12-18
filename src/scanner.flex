@@ -35,7 +35,7 @@ word            {letter}+
 string          \"{multi_word}\"
 command         \`{multi_word}\`
 
-path            [[:alnum:]_/.]+
+path            [[:alnum:]_/.\-\*\+]+
 arg             -[[:alpha:]]+
 
 blank           [[:blank:]]

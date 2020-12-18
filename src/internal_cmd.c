@@ -5,8 +5,8 @@
 #include "internal_cmd.h"
 
 
-#define BUFFER_SIZE 1024
-char GlobalPath[BUFFER_SIZE] = "\0";
+char GlobalPath[BUFFER_SIZE] = "PATH=\0";
+
 
 void echo(char *text) {
 	if (text != NULL)
@@ -14,15 +14,15 @@ void echo(char *text) {
 }
 
 void printWD() {
-	printf("PWD=%s\n", getWD());
+	printf("PWD=%s\n", getenv("PWD"));
 }
 
 void printPath() {
-	printf("PATH=%s\n", GlobalPath);
+	printf("%s\n", GlobalPath);
 }
 
 void addPath(char *path) {
-	if (GlobalPath[0] != '\0')
+	if (GlobalPath[5] != '\0')
 		strcat(GlobalPath, ":");
 	strcat(GlobalPath, path);
 }

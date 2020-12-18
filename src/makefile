@@ -12,20 +12,26 @@ CFLAGS 	= -Wall -ggdb -std=gnu99
 
 ###############################################################################
 
-.PHONY: build_shell build_parser build_scanner clean realclean
+.PHONY: run debug build_shell build_parser build_scanner clean realclean
 
 build_shell: shell
 build_parser: parser.c
 build_scanner: scanner.c
 
+run: shell
+	./shell
+
+debug: shell
+	./shell -d
+
 OBJECTS = parser.o scanner.o variable.o tools.o internal_cmd.o commands.o shell.o
 
 ###############################################################################
 
-parser.c:
+parser.c: parser.y
 	${YACC} ${YFLAGS} -o parser.c parser.y
 
-scanner.c:
+scanner.c: scanner.flex
 	${LEX} ${LFLAGS} -o scanner.c scanner.flex
 
 libs/list/liblist.o:

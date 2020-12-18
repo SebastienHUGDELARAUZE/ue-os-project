@@ -4,28 +4,28 @@
 
 ## Requirements
 
-- **FEAT-0**: Parse command
-  - **-PARSE**: space character used as command line delimiter, except inside string (`" "`)
-- **FEAT-1**: Manage variables
-  - **-VAR-1**: affect value: `var=word`
-  - **-VAR-2**: affect value: `var="string"`
-  - **-VAR-3**: access value: `$var`
-- **FEAT-2**: Execute command
-  - **-INT-CMD**: internal command
-    - **-ECHO**: `echo`
-    - **-PWD**: `pwd`
-    - **-PATH-1**: `showpath`
-    - **-PATH-2**: `addpath [path]`
-    - **-PATH-3**: `delpath`
-  - **-EXT-CMD**: External command (available in system tree)
-    - **-SEARCH-1**: determined by absolute path
-    - **-SEARCH-2**: determined by internal variable path research
-    - **-ERROR**: return **error** message for unavailable command
+- **FEAT-0**: Parse command (:heavy_check_mark:)
+  - :o: | **-PARSE**: space character used as command line delimiter, except inside string (`" "`)
+- **FEAT-1**: Manage variables (:heavy_check_mark:)
+  - :o: | **-VAR-1**: affect value: `var=word`
+  - :o: | **-VAR-2**: affect value: `var="string"`
+  - :o: | **-VAR-3**: access value: `$var`
+- **FEAT-2**: Execute command (:heavy_check_mark:)
+  - **-INT-CMD**: internal command (:heavy_check_mark:)
+    - :o: | **-ECHO**: `echo`
+    - :o: | **-PWD**: `pwd`
+    - :o: | **-PATH-1**: `showpath`
+    - :o: | **-PATH-2**: `addpath [path]`
+    - :o: | **-PATH-3**: `delpath`
+  - **-EXT-CMD**: External command (available in system tree) (:heavy_check_mark:)
+    - :o: | **-SEARCH-1**: determined by absolute path
+    - :o: | **-SEARCH-2**: determined by internal variable path research
+    - :o: | **-ERROR**: return **error** message for unavailable command
 - **FEAT-3**: Command handlers
-  - **-REDIR-1**: `>`: redirect output to file (overwrite)
-  - **-REDIR-2**: `>>`: redirect output to file (append)
-  - **-REDIR-3**: `|` "pipe": redirect left command output to right input command
-  - **-BACKG**: `&`: Create background task
+  - :o: | **-REDIR-1**: `>` : redirect output to file (overwrite)
+  - :o: | **-REDIR-2**: `>>` : redirect output to file (append)
+  - :x: | **-REDIR-3**: `|` : redirect left command output to right input command
+  - :x: | **-BACKG**: `&` : Create background task
 
 ## Shell **PARSER** Definition
 

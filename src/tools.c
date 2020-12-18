@@ -8,11 +8,6 @@ void stripFL(char* str) {
 	str[strlen(str)-1] = '\0';
 }
 
-char* getWD() {
-	return getcwd(NULL, 0);
-}
-
 void printPrompt() {
-	printf("%s > ", getWD());
+	printf("%s > ", getcwd(NULL, 0));
 }
-// TODO: char* formatPath(); | return "PATH=%s", GlobalPath
