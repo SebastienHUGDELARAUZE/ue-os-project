@@ -25,7 +25,7 @@
   - :o: | **-REDIR-1**: `>` : redirect output to file (overwrite)
   - :o: | **-REDIR-2**: `>>` : redirect output to file (append)
   - :x: | **-REDIR-3**: `|` : redirect left command output to right input command
-  - :x: | **-BACKG**: `&` : Create background task
+  - :o: | **-BACKG**: `&` : Create background task
 
 ## Shell **PARSER** Definition
 

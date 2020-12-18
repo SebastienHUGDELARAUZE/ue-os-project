@@ -4,7 +4,7 @@
 
 > Based on C99 & Linux.  
 > Maintainer: Sébastien HUG DE LARAUZE ([GitHub](https://github.com/SebastienHUGDELARAUZE/ue-os-project))  
-> Educator: Eric TOTEL (IMT Atlantique)
+> Referent: Eric TOTEL (IMT Atlantique)
 
 ## Usages
 
@@ -37,7 +37,7 @@
 2. Syntax analysis (:heavy_check_mark:)
    - **Bison file:** Write complete grammar
      - _Action:_ Display token reduction
-3. Semantic analysis (:construction:)
+3. Semantic analysis (:heavy_check_mark:)
    - Build/Calculate useful data
 4. Error recovery (:construction:)
 
