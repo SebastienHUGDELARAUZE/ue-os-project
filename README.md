@@ -8,6 +8,11 @@
 
 ## Usages
 
+- To execute the shell, use `make run_shell`
+
+> It will install the shell at the top of the directory  
+> TIPS: You can use `./shell -d` to enable debug output inside the project
+
 - To build the project, you can use the makefile task `shell`:
 
       $ make shell
