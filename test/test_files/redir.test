@@ -12,7 +12,7 @@ cat fichier.txt
 
 echo "................................"
 
-ls -al | grep e
+ls -al | grep src
 
 echo "................................"
 
