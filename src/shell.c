@@ -8,7 +8,6 @@
 void initShell() {
     initVariableTable();
 	initPath();
-	istty = isatty(STDIN_FILENO);
 	printPrompt();
 }
 
