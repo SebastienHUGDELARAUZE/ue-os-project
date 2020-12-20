@@ -1,0 +1,7 @@
+var=IMT
+echo $var
+
+var=IMT Atlantique
+
+var="IMT Atlantique"
+echo $var

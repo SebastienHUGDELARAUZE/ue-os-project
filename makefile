@@ -1,50 +1,64 @@
-.PHONY: build
+all: shell test
 
-all: build run_test soft_clean
-build: main
-build_parser: syntax.c
+##############################################################
+###### Python Virtual Env
 
-# COMPILATION
+VENV_NAME?=venv
+PYTHON=${VENV_NAME}/bin/python
 
-main.c:
-	bison grammar.y --defines=main.h -o main.c
+.PHONY: prepare_venv prepare_venv_dev prepare_ci_env
 
-main.o: main.c
-	gcc -c main.c
-
-syntax.c:
-	flex -o syntax.c syntax.flex
-
-syntax.o: syntax.c
-	gcc -c syntax.c
-
-shell.o:
-	gcc -c shell.c
-
-main: main.o syntax.o shell.o
-	gcc -o main shell.o syntax.o main.o
-
-# INSTALL
-
-install_deps:
+prepare_ci_env:
 	pip install -r test/requirements.txt
 
-# TEST
+prepare_venv: ${VENV_NAME}/bin/activate
 
-run_all_test:
-	pytest test/ -vs
+prepare_venv_dev: prepare_venv
+	${PYTHON} -m pip install -r requirements.txt
+	touch ${VENV_NAME}/bin/activate
 
-run_unit_test:
-	pytest test/ -vs -m unit_test
+${VENV_NAME}/bin/activate: test/requirements.txt
+	test -d ${VENV_NAME} || python3 -m venv ${VENV_NAME}
+	${PYTHON} -m pip install -r test/requirements.txt
+	touch ${VENV_NAME}/bin/activate
 
-run_funtional_test:
-	pytest test/ -vs -m functional_test
+##############################################################
+###### SHELL DIR
 
-# CLEAN
+.PHONY: shell
 
-soft_clean:
-	rm -rf main main.c syntax.c
-	rm -rf *.o
+shell:
+	(cd src/; make build_shell)
 
-clean: soft_clean
-	rm -rf main
+install: shell
+	(cp ./src/shell .)
+
+run_shell: install
+	(./shell)
+
+###### DOCS DIR
+
+docs: prepare_venv_dev
+	(cd doc-files/; make VENV_NAME=${VENV_NAME})
+
+###### TEST DIR
+
+test: prepare_venv install
+	(cd test; make run_all_test)
+
+unit_test: prepare_venv install
+	(cd test; make run_unit_test)
+
+func_test: prepare_venv install
+	(cd test; make run_functional_test)
+
+ci_test:
+	(cd test; make run_all_test)
+
+###### CLEAN
+
+clean:
+	(cd src/; make realclean)
+
+realclean: clean
+	rm -rf shell

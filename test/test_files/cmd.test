@@ -1,0 +1,19 @@
+var1=value1
+var2="value 2"
+$var2
+echo /test/path
+echo "str ing"
+echo $var1
+pwd
+showpath
+addpath /test/file
+delpath
+/bin/ls
+ls
+/bin/ls -al
+ls -al
+touch $fichier1 fichier2.txt
+echo "write to file" > DELETE_ME
+echo " DELETE ME" >> DELETE_ME
+ls -al | grep e
+ls &

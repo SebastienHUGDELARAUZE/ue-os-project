@@ -4,133 +4,49 @@
 
 > Based on C99 & Linux.  
 > Maintainer: Sébastien HUG DE LARAUZE ([GitHub](https://github.com/SebastienHUGDELARAUZE/ue-os-project))  
-> Educator: Eric TOTEL (IMT Atlantique)
+> Referent: Eric TOTEL (IMT Atlantique)
 
 ## Usages
 
-- To build the project, you can use the makefile task `build`:
+- To execute the shell, use `make run_shell`
 
-      $ make build
+> It will install the shell at the top of the directory  
+> TIPS: You can use `./shell -d` to enable debug output inside the project
+
+- To build the project, you can use the makefile task `shell`:
+
+      $ make shell
       gcc ...
 
-  > Will produce an executable called `main`
+  > Will produce an executable called `shell`
 
-- To clean the project afterward, use the task `clean`:
+- To clean the project afterward, use the task `clean` or `realclean`:
 
       $ make clean
       rm ...
 
-## Specifications
+## Shell specifications
 
-- [ ] **FEAT-1**: managed variables
-  - [ ] **VAR**: affect value: `var=string`
-  - [ ] **VAR**: affect value: `var="composed string"`
-  - [ ] **VAR**: access value: `$var`
-- [ ] **FEAT-2**: parse command
-  - [x] **PARSE**: ` ` "space": command line delimiter, except inside string (`" "`)
-- [ ] **FEAT-3**: execute command
-  - [ ] **EXEC-CMD**: internal command
-    - [ ] **INT-CMD**: `echo`
-    - [ ] **INT-CMD**: `pwd`
-    - [ ] **INT-CMD**: `addpath [path]`
-    - [ ] **INT-CMD**: `delpath`
-    - [ ] **INT-CMD**: `showpath`
-  - [ ] **EXEC-CMD**: external command (available in system tree)
-    - [ ] **EXT-CMD**: Determined by absolute path
-    - [ ] **EXT-CMD**: Determined by internal variable path research
-    - [ ] **EXT-CMD**: Return error message for unavailable command
-- [ ] **FEAT-4**: Output redirection
-  - [ ] **REDIR**: `>`: redirect output to file (overwrite)
-  - [ ] **REDIR**: `>>`: redirect output to file (append)
-  - [ ] **REDIR**: `|` "pipe": redirect left command output to right input command
-- [ ] **FEAT-5**: Background task
-  - [ ] **BACKG**: `&`: Create background task
+[See SPECIFICATIONS](./SPECIFICATIONS.md) file.
 
-### Use case
+## Test specifications
 
-- [ ] Case: Command with/without arguments
+[See SPECIFICATIONS-TEST](./SPECIFICATIONS-TEST.md) file.
 
-![usecase main](doc-files/usecase_main.png)
+## Process
 
-- [ ] Case: End result
+1. Lexical analysis (:heavy_check_mark:)
+   - **Flex file:** Recognize all tokens
+   - **Bison file:** Dummy logic (Accept all tokens)
+     - _Action:_ Display tokens
+2. Syntax analysis (:heavy_check_mark:)
+   - **Bison file:** Write complete grammar
+     - _Action:_ Display token reduction
+3. Semantic analysis (:heavy_check_mark:)
+   - Build/Calculate useful data
+4. Error recovery (:construction:)
 
-      > delpath
-      > addpath /bin
-      > addpath /usr/local/bin
-      > showpath
-      /bin:/usr/local/bin
-      > fichier="mon fichier.txt"
-      > touch $fichier fichier2.txt
-      > ls -al $fichier
-      > ls -al > resultat.txt
-      > ls -al | grep fichier
-      [mon fichier.txt & fichier2.txt]
-
-### Test case
-
-#### FEAT-1 | VAR
-
-- [ ] [**REQUIRED**] Assign and access word value
-
-      > var=IMT  
-      > echo $var  
-      IMT
-
-- [ ] [**REQUIRED**] Failed to assign string value
-
-      > var=IMT Atlantique
-      Atlantique: command not found
-
-- [ ] [**REQUIRED**] Assign and access string value
-
-      > var="IMT Atlantique"
-      > echo $var
-      IMT Atlantique
-
-#### FEAT-3 | EXEC-CMD
-
-- [ ] [**REQUIRED**] Execute external command (w/o args)
-
-      > /bin/ls
-      [folder content]
-
-- [ ] [**REQUIRED**] Execute external command (w/ args)
-
-      > /bin/ls -al
-      [folder content]
-
-- [ ] [**REQUIRED**] Execute external command (w/ args & path lookup)
-
-      > ls -al
-      [folder content]
-
-#### FEAT-4 | REDIR
-
-- [ ] [**REQUIRED**] Redirect to file (overwrite)
-
-      > ls -al > fichier.txt
-      > cat fichier.txt
-      [folder content]
-
-- [ ] [**REQUIRED**] Redirect to file (append)
-
-      > ls -al >> fichier.txt
-      > cat fichier.txt
-      [folder content]
-
-- [ ] [**REQUIRED**] Redirect to file (append)
-
-      > ls -al | grep e
-      [folder content filtered by letter 'e']
-
-#### FEAT-5 | BACKG
-
-- [ ] [**REQUIRED**] Execute a command in background
-
-      > ls &
-      [PID]
-
-## Notes
+## :memo: Notes
 
 Sources:
 
@@ -139,7 +55,37 @@ Sources:
 
 Files of interest:
 
-- `grammar.y`
-- `syntax.flex`
-- `shell.c`
-- `shell.h`
+    > grammar.y         // Parser (GNU Bison)
+    > syntax.flex       // Scanner (Flex)
+    > shell.c           // SHELL program (source)
+    > shell.h           // SHELL program (header)
+
+Documentations:
+
+- [GNU Bison documentation](https://www.gnu.org/software/bison/manual/bison.html)
+- [Flex documenation](http://gensoft.pasteur.fr/docs/flex/2.6.1/index.html)
+- [GNU Make](https://www.gnu.org/software/make/manual/make.html)
+
+Regular expression:
+
+- [Regex101](https://regex101.com/)
+- [Railroad diagram](https://regexper.com/)
+
+Tutorials:
+
+- [SO: Check semantic value](https://stackoverflow.com/questions/52136092/how-to-check-semantic-values-of-tokens-in-flex-bison)
+- [1. Flexible Bison: Compiler Theory - DONE](https://starbeamrainbowlabs.com/blog/article.php?article=posts/258-Languages-and-Compilers-Intro.html)
+- [2. Compilers 101: Build your own flex + bison compiler in a few easy(?) steps](https://starbeamrainbowlabs.com/blog/article.php?article=posts%2F267-Compilers-101.html)
+- [3. Introducing Flex and Bison](https://www.oreilly.com/library/view/flex-bison/9780596805418/ch01.html)
+- [4. Flex and Bison in C++](http://www.jonathanbeard.io/tutorials/FlexBisonC%2B%2B)
+- [X. Cours ENIB Bison/Flex](https://www.enib.fr/~harrouet/Data/Courses/Flex_Bison.pdf)
+- [X. Interactive Mode Bison](https://www.cs.uic.edu/~spopuri/ibison.html)
+- [:mag: Creating C Libraries](https://www.cs.swarthmore.edu/~newhall/unixhelp/howto_C_libraries.html)
+- [:mag: C programming](https://randu.org/tutorials/c/index.php)
+- [:mag: Unix PIPE implementation](https://toroid.org/unix-pipe-implementation)
+- [:mag: Multilevel Makefile](http://aggregate.org/rfisher/Tutorials/Make/make6.html)
+
+Others:
+
+- [Markdown emoji](https://gist.github.com/rxaviers/7360908)
+- [Makefile python venv](https://www.dinotools.de/en/2019/12/23/use-python-with-virtualenv-in-makefiles/)

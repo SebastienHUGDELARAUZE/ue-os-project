@@ -1,0 +1,5 @@
+showpath
+addpath /chemin
+showpath
+delpath
+showpath

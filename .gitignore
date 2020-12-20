@@ -1,12 +1,20 @@
+.bison-flex-testing/
 .pytest_cache/
-__pycache__/
 .vscode/
-helper/
+.helper/
+
+src/libs/criterion/
+__pycache__/
+src-test/
 venv/
 
-compile.sh
-main_flex.c
-syntax.c
-main.c
-main
+shell
+
+parser.c
+parser.h
+parser.dot
+parser.output
+
+scanner.c
+
 *.o
