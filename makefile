@@ -54,7 +54,7 @@ func_test: prepare_venv install
 	(cd test; make run_functional_test)
 
 ci_test:
-	(cd test; make run_all_test)
+	(cd test; make run_all_test PYTHON=python)
 
 ###### CLEAN
 
