@@ -1,7 +1,13 @@
 var1=value1
 var2="value 2"
+$var2
+echo /test/path
+echo "str ing"
 echo $var1
-echo $var2
+pwd
+showpath
+addpath /test/file
+delpath
 /bin/ls
 ls
 /bin/ls -al
