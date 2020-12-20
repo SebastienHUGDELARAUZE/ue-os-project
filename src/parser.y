@@ -58,7 +58,7 @@ shell: %empty
 
 handlers: cmd REDIR_APP PATH                                { setRedirectionToCmdReq($1, $3, false); $$ = $1; }
         | cmd REDIR_OVER PATH                               { setRedirectionToCmdReq($1, $3, true);  $$ = $1; }
-        | cmd REDIR_CMD cmd                                 { printf("[WIP] PIPE"); }
+        | cmd REDIR_CMD cmd                                 { setPipeToCmdReq($1, $3); cmd_router($1); $$ = $3; }
         | cmd BACKG                                         { setBackgroundToCmdReq($1);             $$ = $1; }
 ;
 

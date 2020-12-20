@@ -26,8 +26,18 @@ void executeExternalCommand(CmdReqPtr cr) {
 void setupExternalCommandProcess(CmdReqPtr cr) {
 	putenv(GlobalPath);
 	
-	if (cr->flag_redir) {
-		freopen(cr->file_output, cr->flag_overw ? "w" : "a", stdout);
+	if (cr->flag_redir == REDIR_OVERWRITE) {
+		freopen(cr->redir_output.pathname, "w", stdout);
+	} else if (cr->flag_redir == REDIR_APPEND) {
+		freopen(cr->redir_output.pathname, "a", stdout);
+	} else if (cr->flag_redir == REDIR_PIPE_R) {
+		// printf("%d->Input\n", cr->redir_output.pipefd[0]);
+		close(cr->redir_output.pipefd[1]);
+		dup2(cr->redir_output.pipefd[0], STDIN_FILENO);
+	} else if (cr->flag_redir == REDIR_PIPE_W) {
+		// printf("Output->%d\n", cr->redir_output.pipefd[1]);
+		close(cr->redir_output.pipefd[0]);
+		dup2(cr->redir_output.pipefd[1], STDOUT_FILENO);
 	}
 }
 
@@ -48,8 +58,16 @@ void forkHandler(CmdReqPtr cr, fctCmdReq parentHandler, fctCmdReq childHandler) 
 }
 
 void MainProcess(pid_t PID, CmdReqPtr cr) {
-	if (!cr->flag_backg)
+	if (cr->flag_redir == REDIR_PIPE_R) {
+		close(cr->redir_output.pipefd[0]);  // Close READ
+		close(cr->redir_output.pipefd[1]);  // Close WRITE
+
 		wait(NULL);
+		wait(NULL);
+	}
+	else if (!cr->flag_backg) {
+		wait(NULL);
+	}
 }
 
 void ExternalCmdProcess(pid_t PID, CmdReqPtr cr) {
@@ -76,6 +94,12 @@ void ExternalCmdBackgMonitor(pid_t PID, CmdReqPtr cr) {
 
 void cmd_router(CmdReqPtr command_request) {
 	
+	if (command_request == NULL) {
+		return;
+	} else {
+		// printf("Executing cmd [%d]...\n", command_request->type);
+	}
+
 	switch (command_request->type) {
 		case EXTERNAL:
 			executeExternalCommand(command_request);

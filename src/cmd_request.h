@@ -6,6 +6,10 @@
 #include <sys/types.h>
 #include "libs/list/liblist.h"
 
+enum redir_type {
+    NONE, REDIR_OVERWRITE, REDIR_APPEND, REDIR_PIPE_W, REDIR_PIPE_R
+};
+typedef enum redir_type RedirType;
 
 enum cmd_type {
     EXTERNAL, ECHO, PWD, SHOW_PATH, ADD_PATH, DELETE_PATH
@@ -17,10 +21,13 @@ typedef struct cmd_request {
     size_t          argc;
     char**          argv;
 
-    bool            flag_redir;
-    bool            flag_overw;
-    char*           file_output;
-
+    RedirType       flag_redir;
+    union redir_output
+    {
+        char*       pathname;
+        int         pipefd[2];
+    } redir_output;
+    
     bool            flag_backg;
 } CmdReq;
 typedef CmdReq* CmdReqPtr;
@@ -35,6 +42,7 @@ CmdReqPtr newExternalCmdReq(CmdType type, char* command, ListPtr args);
 void freeCmdReq(CmdReqPtr cr);
 void addArgumentToCmdReq(CmdReqPtr cr, char* arg);
 void setRedirectionToCmdReq(CmdReqPtr cr, char* file_output, bool overwrite);
+void setPipeToCmdReq(CmdReqPtr cr_left, CmdReqPtr cr_right);
 void setBackgroundToCmdReq(CmdReqPtr cr);
 bool isValid(CmdReqPtr cr);
 void cmd_debug(CmdReqPtr cr);
