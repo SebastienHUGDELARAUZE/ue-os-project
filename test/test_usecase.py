@@ -9,8 +9,9 @@ import sys
 @pytest.mark.functional_test
 class Test_Use_Case():
 
-    @pytest.mark.skip(reason="Issue: No exception on error exit")
+    # @pytest.mark.skip(reason="Issue: No exception on error exit")
     def test_end_result(self, test_shell):
+        # test_shell.logfile = sys.stdout
         test_shell.logfile_read = sys.stdout
 
         # PATH RELATED : FEAT-3 > EXEC-CMD > INT-CMD
@@ -25,5 +26,6 @@ class Test_Use_Case():
         test_shell.sendline("touch $fichier fichier2.txt")
         test_shell.sendline("ls -al $fichier")
         test_shell.sendline("ls -al > resultat.txt")
+        test_shell.expect("mon fichier.txt")
         test_shell.sendline("ls -al | grep fichier")
-        test_shell.expect(["mon fichier.txt", "fichier2.txt"])
+        test_shell.expect("fichier2.txt")

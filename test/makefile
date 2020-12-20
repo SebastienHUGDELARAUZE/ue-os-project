@@ -3,7 +3,7 @@ PYTHON=../${VENV_NAME}/bin/python
 
 SHELL_PATH=../shell
 
-.PHONY: run_all_test run_unit_test run_funtional_test
+.PHONY: run_all_test run_unit_test run_functional_test
 
 ${SHELL_PATH}:
 	$(error Shell is not present in the root directory!)

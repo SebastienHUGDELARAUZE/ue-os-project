@@ -32,6 +32,7 @@ shell:
 
 install: shell
 	(cp ./src/shell .)
+	(cd src/; make realclean)
 
 run_shell: install
 	(./shell)

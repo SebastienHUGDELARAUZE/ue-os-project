@@ -9,7 +9,7 @@ char GlobalPath[BUFFER_SIZE];
 
 void initPath() {
 	strcpy(GlobalPath, "PATH=\0");
-	addPath("/bin");
+	// addPath("/bin");
 }
 
 void echo(char *text) {

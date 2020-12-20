@@ -37,8 +37,8 @@ class ExceptionShell(Exception):
 @pytest.fixture(scope="function")
 def test_shell():
     proc = pexpect.spawn("../shell", encoding='utf-8', timeout=1)
-    proc.expect = _expect_shell_safe(proc.expect)
+    # proc.expect = _expect_shell_safe(proc.expect)
 
-    print("| Shell PID=%d | " % proc.pid, end="")
+    print("| Shell PID=%d\n" % proc.pid, end="")
 
     return proc

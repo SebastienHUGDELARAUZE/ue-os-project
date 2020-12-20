@@ -1,6 +1,6 @@
 %{
+#include <unistd.h>
 #include <string.h>
-#include "shell.h"
 
 int yylex();
 %}
@@ -12,6 +12,7 @@ int yylex();
 %define parse.error verbose
 
 %code requires {
+    #include "shell.h"
     #include "tools.h"
     #include "commands.h"
     #include "variable.h"
@@ -100,10 +101,17 @@ external_cmd_arg: %empty                                    { $$ = newList(); ad
 %%
 
 int main(int argc, char** argv) {
-    if (argc > 1 && strcmp(argv[1], "-d") == 0) {
-        yydebug = 1;
-        printf("DEBUG");
-    }
+    if (argc > 1) {
+        if (strcmp(argv[1], "-d") == 0) {
+            yydebug = 1;
+        }
+        
+        if (strcmp(argv[1], "-t") == 0) {
+            istty = false;
+        } else {
+        	istty = isatty(STDIN_FILENO);
+        }
+    } 
 
     initShell();
     int parser_result = yyparse();

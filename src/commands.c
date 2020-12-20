@@ -75,7 +75,7 @@ void ExternalCmdProcess(pid_t PID, CmdReqPtr cr) {
 
 	execvp(cr->argv[0], cr->argv);
 
-	perror("(External command failed)");
+	perror(cr->argv[0]);
 	_exit(EXIT_FAILURE);
 }
 
